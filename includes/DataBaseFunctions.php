@@ -7,7 +7,7 @@ function query($pdo, $sql, $params = []) {
 
 function allQuestions($pdo) {
     $sql = "SELECT q.id, q.text AS questiontext, q.date, q.img, q.userid, q.moduleid,
-                   m.name AS modulename, u.username AS username
+                   m.name AS modulename, u.name AS username
             FROM question q
             LEFT JOIN module m ON q.moduleid = m.id
             LEFT JOIN `user` u ON q.userid = u.id
@@ -16,7 +16,7 @@ function allQuestions($pdo) {
 }
 
 function getQuestion($pdo, $id) {
-    $sql = "SELECT q.*, m.name AS modulename, u.username AS username
+    $sql = "SELECT q.*, m.name AS modulename, u.name AS username
             FROM question q
             LEFT JOIN module m ON q.moduleid = m.id
             LEFT JOIN `user` u ON q.userid = u.id
