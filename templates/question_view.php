@@ -56,7 +56,7 @@
         <p><a href="login.php">Login</a> to add a comment.</p>
     <?php else: ?>
         <div style="margin-bottom:30px; padding:15px; background:#f9f9f9; border-radius:4px;">
-            <p><a href="admin/addcomment.php?qid=<?=htmlspecialchars($question['id'])?>">Add a Comment</a></p>
+            <p><a href="addcomment.php?qid=<?=htmlspecialchars($question['id'])?>">Add a Comment</a></p>
         </div>
     <?php endif; ?>
     
@@ -88,15 +88,15 @@
                     if ($isCommentOwner):
                     ?>
                         <div style="margin-top:10px;">
-                            <a href="admin/editcomment.php?id=<?=htmlspecialchars($c['id'])?>">Edit</a>
-                            | <form action="admin/deletecomment.php" method="post" style="display:inline; margin:0;">
+                            <a href="editcomment.php?id=<?=htmlspecialchars($c['id'])?>">Edit</a>
+                            | <form action="deletecomment.php" method="post" style="display:inline; margin:0;">
                                 <input type="hidden" name="id" value="<?=htmlspecialchars($c['id'])?>">
                                 <input type="submit" value="Delete" onclick="return confirm('Delete this comment?');" style="background:none; border:none; color:#d9534f; cursor:pointer; text-decoration:underline; padding:0; font-size:0.9em;">
                             </form>
                         </div>
                     <?php elseif ($isAdmin && $currentUser && $currentUser['id'] != $c['userid']): ?>
                         <div style="margin-top:10px;">
-                            <form action="admin/deletecomment.php" method="post" style="display:inline; margin:0;">
+                            <form action="deletecomment.php" method="post" style="display:inline; margin:0;">
                                 <input type="hidden" name="id" value="<?=htmlspecialchars($c['id'])?>">
                                 <input type="submit" value="Delete" onclick="return confirm('Delete this comment?');" style="background:none; border:none; color:#d9534f; cursor:pointer; text-decoration:underline; padding:0; font-size:0.9em;">
                             </form>

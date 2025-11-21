@@ -10,7 +10,7 @@
     <header>
         <h1>Student Q&amp;A</h1>
         <nav>
-            <a href="index.php">Home</a> |
+            <a href="<?php echo (strpos($_SERVER['PHP_SELF'], '/admin/') !== false) ? '../index.php' : 'index.php'; ?>">Home</a> |
             <?php if (isLoggedIn()): ?>
                 <a href="profile.php?username=<?=htmlspecialchars(getCurrentUser()['username'])?>">My Profile</a> |
                 <a href="admin/addquestion.php">Add Question</a> |

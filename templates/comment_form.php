@@ -12,6 +12,6 @@
 
     <div style="margin-bottom:15px;">
         <button type="submit" style="padding:8px 16px; background:#4a90e2; color:white; border:none; border-radius:4px; cursor:pointer;">Save</button>
-        <a href="../question.php?id=<?=htmlspecialchars($comment['questionid'] ?? $_GET['qid'] ?? '')?>" style="padding:8px 16px; background:#ccc; color:#333; text-decoration:none; border-radius:4px; display:inline-block; margin-left:10px;">Cancel</a>
+        <a href="<?php echo (strpos($_SERVER['PHP_SELF'], '/admin/') !== false) ? '../question.php' : 'question.php'; ?>?id=<?=htmlspecialchars($comment['questionid'] ?? $_GET['qid'] ?? '')?>" style="padding:8px 16px; background:#ccc; color:#333; text-decoration:none; border-radius:4px; display:inline-block; margin-left:10px;">Cancel</a>
     </div>
 </form>
