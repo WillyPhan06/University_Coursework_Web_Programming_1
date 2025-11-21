@@ -88,7 +88,7 @@ function query($pdo, $sql, $params = []) {
 
 function allQuestions($pdo) {
     $sql = "SELECT q.id, q.text AS questiontext, q.date, q.img, q.userid, q.moduleid,
-                   m.name AS modulename, u.name AS username, u.username, u.avatar
+                   m.name AS modulename, u.name AS name, u.username AS username, u.avatar
             FROM question q
             LEFT JOIN module m ON q.moduleid = m.id
             LEFT JOIN `user` u ON q.userid = u.id
@@ -97,7 +97,7 @@ function allQuestions($pdo) {
 }
 
 function getQuestion($pdo, $id) {
-    $sql = "SELECT q.*, m.name AS modulename, u.name AS username, u.username, u.avatar
+    $sql = "SELECT q.*, m.name AS modulename, u.name AS name, u.username AS username, u.avatar
             FROM question q
             LEFT JOIN module m ON q.moduleid = m.id
             LEFT JOIN `user` u ON q.userid = u.id
@@ -139,7 +139,7 @@ function insertComment($pdo, $text, $userid, $questionid) {
 }
 
 function getCommentsByQuestion($pdo, $questionid) {
-    $sql = "SELECT c.id, c.text, c.date, c.userid, u.name AS username, u.username, u.avatar
+    $sql = "SELECT c.id, c.text, c.date, c.userid, u.name AS name, u.username AS username, u.avatar
             FROM comment c
             LEFT JOIN `user` u ON c.userid = u.id
             WHERE c.questionid = :questionid
@@ -148,7 +148,7 @@ function getCommentsByQuestion($pdo, $questionid) {
 }
 
 function getComment($pdo, $id) {
-    $sql = "SELECT c.id, c.text, c.date, c.userid, c.questionid, u.name AS username
+    $sql = "SELECT c.id, c.text, c.date, c.userid, c.questionid, u.name AS name, u.username AS username, u.avatar
             FROM comment c
             LEFT JOIN `user` u ON c.userid = u.id
             WHERE c.id = :id";
