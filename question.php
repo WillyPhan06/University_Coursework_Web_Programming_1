@@ -2,6 +2,8 @@
 require 'includes/DatabaseConnection.php';
 require 'includes/DataBaseFunctions.php';
 
+startUserSession();
+
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     header('Location: index.php');
     exit;
@@ -13,6 +15,9 @@ if (!$question) {
     echo 'Question not found';
     exit;
 }
+
+$comments = getCommentsByQuestion($pdo, $_GET['id']);
+$currentUser = getCurrentUser();
 
 $title = 'View Question';
 ob_start();

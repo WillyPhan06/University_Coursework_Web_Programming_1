@@ -1,12 +1,12 @@
 <h2><?=htmlspecialchars($title)?></h2>
 <?php if (!empty($error)): ?>
-    <div style="color:red;">Error: <?=htmlspecialchars($error)?></div>
+    <div style="color:red; padding:10px; background:#ffe6e6; margin-bottom:15px; border-radius:4px;">Error: <?=htmlspecialchars($error)?></div>
 <?php endif; ?>
 
 <form action="" method="post" enctype="multipart/form-data">
     <p>
         <label for="questiontext">Question text</label><br>
-        <textarea name="questiontext" rows="6" cols="80"><?=isset($question) ? htmlspecialchars($question['text']) : ''?></textarea>
+        <textarea name="questiontext" rows="6" cols="80" required><?=isset($question) ? htmlspecialchars($question['text']) : ''?></textarea>
     </p>
 
     <p>

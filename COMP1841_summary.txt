@@ -1,0 +1,135 @@
+COMP1841 Coursework Summary (Condensed but Detailed)
+
+Overview
+
+You must build a PHP PDO + MySQL CRUD web system deployed on either: -
+CMS student web server (I-Drive), or
+- Localhost (XAMPP).
+
+MySQLi is forbidden → using it caps your mark at 40%.
+
+The system is a mini student Q&A platform (similar to a simple
+StackOverflow).
+Your job: implement the functional requirements + produce a 2000‑word
+report.
+
+------------------------------------------------------------------------
+
+Functional Requirements (Core)
+
+Public Website
+
+-   Display a list of questions/posts.
+-   Students can add, edit, delete questions.
+-   Each post may include an image/screenshot.
+-   Manage authors/users (username, email, etc.).
+-   Manage module names (add/edit/delete).
+-   Posts must be assignable to:
+    -   an author, and
+    -   a module name (using dropdowns).
+-   Provide a contact form that sends an email to the site admin.
+
+------------------------------------------------------------------------
+
+Technical Requirements
+
+-   Must use PHP PDO for all DB interactions.
+-   Must use a relational database with more than one table.
+-   Must demonstrate referential integrity (e.g., foreign keys).
+-   Include proper frontend design, consistent across pages.
+-   You may use Bootstrap or CSS frameworks.
+-   Must include HTML5/JS validation where appropriate.
+-   Include basic accessibility considerations (WCAG / W3Schools
+    accessibility).
+-   You may add extra features for higher marks (login system, admin
+    panel, password hashing, validation, etc.).
+
+------------------------------------------------------------------------
+
+Legal / Ethical Requirements
+
+You must show understanding of: - Accessibility (WCAG, ARIA, etc.). -
+GDPR and personal data handling. - Legal, social, ethical
+responsibilities of storing student data. - How GDPR may differ
+post‑Brexit. - Must be specific to your system, not generic essays. -
+This section must be fully referenced (Harvard).
+→ No references = automatic zero for this section.
+
+------------------------------------------------------------------------
+
+Deliverables
+
+1. Report (2000 words ±10%) (30%)
+
+Must include: - Title page (URL + any passwords + word count) - Table of
+contents - Introduction - Page designs / wireframes + navigation
+diagram + ERD - Discussion of technologies (HTML, CSS, JS, PHP, MySQL)
+→ Do NOT talk about tools like VSCode, Chrome -
+Legal/ethical/accessibility/GDPR section (500 words) - System
+walkthrough with annotated screenshots - Formal testing (tables, test
+cases, attempted inputs, bugs found) - Conclusion + future
+improvements - Harvard references (alphabetical)
+
+2. A ZIP file of:
+
+-   All PHP files
+-   Assets
+-   Database (.sql)
+
+------------------------------------------------------------------------
+
+Marking Breakdown (System – 70%)
+
+-   Display list of posts – 10
+-   Add/edit/delete posts – 7
+-   Display image – 3
+-   Send email – 3
+-   Manage users – 7
+-   Assign modules/users to posts – 3
+-   Manage modules – 7
+-   Extra features (login, admin, security, validation, UX) – up to 30
+
+------------------------------------------------------------------------
+
+Marking Breakdown (Report – 30%)
+
+-   Introduction – included
+-   Designs/wireframes/navigation/ERD – included
+-   Technology discussion – included
+-   Legal/ethical/GDPR section – 27% of report section (~500 words)
+-   Walkthrough with screenshots – included
+-   Formal testing – included
+-   Conclusion – included
+-   Harvard referencing – included
+-   English/grammar/style → penalties for errors (up to −5 marks)
+
+------------------------------------------------------------------------
+
+Key Warnings
+
+-   Do NOT use MySQLi (cap at 40%).
+-   Do NOT use AI to write your report – must be your own research.
+-   Do NOT implement features you don’t understand.
+-   All AI-assisted code must be referenced.
+-   References must match citations in-text.
+-   Avoid synonym/rewording tools.
+
+------------------------------------------------------------------------
+
+What Your Project Should Contain
+
+1.  Fully working CRUD with relational tables:
+    -   users
+    -   modules
+    -   posts (with FK to user and module)
+2.  Image upload or display method.
+3.  Contact form with PHP mail (or alternative discussed in class).
+4.  Clean, consistent UI.
+5.  Validation (server-side + HTML5 / JS).
+6.  Accessibility basics.
+7.  Enough test data to demonstrate all features.
+
+------------------------------------------------------------------------
+
+This summary captures everything required so that you can paste it into
+Copilot to guide development and report writing.

@@ -1,4 +1,85 @@
 <?php
+// Session management
+function startUserSession() {
+    if (session_status() === PHP_SESSION_NONE) {
+        session_start();
+    }
+}
+
+function getCurrentUser() {
+    startUserSession();
+    return $_SESSION['user'] ?? null;
+}
+
+function isLoggedIn() {
+    startUserSession();
+    return isset($_SESSION['user']);
+}
+
+function isAdmin() {
+    startUserSession();
+    return isset($_SESSION['user']) && $_SESSION['user']['role'] === 'admin';
+}
+
+// Auth functions
+function registerUser($pdo, $username, $name, $email, $password) {
+    $hashedPassword = password_hash($password, PASSWORD_BCRYPT);
+    $sql = "INSERT INTO `user` (username, name, email, password) VALUES (:username, :name, :email, :password)";
+    query($pdo, $sql, [
+        ':username' => $username,
+        ':name' => $name,
+        ':email' => $email,
+        ':password' => $hashedPassword
+    ]);
+    return $pdo->lastInsertId();
+}
+
+function loginUser($pdo, $username, $password) {
+    $sql = "SELECT id, username, name, email, password, role, avatar FROM `user` WHERE username = :username";
+    $stmt = query($pdo, $sql, [':username' => $username]);
+    $user = $stmt->fetch();
+    
+    if ($user && password_verify($password, $user['password'])) {
+        unset($user['password']);
+        startUserSession();
+        $_SESSION['user'] = $user;
+        return true;
+    }
+    return false;
+}
+
+function logoutUser() {
+    startUserSession();
+    unset($_SESSION['user']);
+    session_destroy();
+}
+
+function getUserById($pdo, $id) {
+    $sql = "SELECT id, username, name, email, role, avatar, created_at FROM `user` WHERE id = :id";
+    return query($pdo, $sql, [':id' => $id])->fetch();
+}
+
+function getUserByUsername($pdo, $username) {
+    $sql = "SELECT id, username, name, email, role, avatar, created_at FROM `user` WHERE username = :username";
+    return query($pdo, $sql, [':username' => $username])->fetch();
+}
+
+function userExists($pdo, $username, $email) {
+    $sql = "SELECT COUNT(*) as count FROM `user` WHERE username = :username OR email = :email";
+    $result = query($pdo, $sql, [':username' => $username, ':email' => $email])->fetch();
+    return $result['count'] > 0;
+}
+
+function getAllUsers($pdo) {
+    $sql = "SELECT id, username, name, email, role, avatar, created_at FROM `user` ORDER BY created_at DESC";
+    return query($pdo, $sql)->fetchAll();
+}
+
+function deleteUser($pdo, $id) {
+    query($pdo, 'DELETE FROM `user` WHERE id = :id', [':id' => $id]);
+}
+
+// Question functions
 function query($pdo, $sql, $params = []) {
     $stmt = $pdo->prepare($sql);
     $stmt->execute($params);
@@ -7,7 +88,7 @@ function query($pdo, $sql, $params = []) {
 
 function allQuestions($pdo) {
     $sql = "SELECT q.id, q.text AS questiontext, q.date, q.img, q.userid, q.moduleid,
-                   m.name AS modulename, u.name AS username
+                   m.name AS modulename, u.name AS username, u.username, u.avatar
             FROM question q
             LEFT JOIN module m ON q.moduleid = m.id
             LEFT JOIN `user` u ON q.userid = u.id
@@ -16,7 +97,7 @@ function allQuestions($pdo) {
 }
 
 function getQuestion($pdo, $id) {
-    $sql = "SELECT q.*, m.name AS modulename, u.name AS username
+    $sql = "SELECT q.*, m.name AS modulename, u.name AS username, u.username, u.avatar
             FROM question q
             LEFT JOIN module m ON q.moduleid = m.id
             LEFT JOIN `user` u ON q.userid = u.id
@@ -41,11 +122,67 @@ function updateQuestion($pdo, $id, $text, $moduleid = null, $img = null) {
 }
 
 function deleteQuestion($pdo, $id) {
+    // Delete associated comments first
+    query($pdo, 'DELETE FROM comment WHERE questionid = :id', [':id' => $id]);
     query($pdo, 'DELETE FROM question WHERE id = :id', [':id' => $id]);
 }
 
+// Comment functions
+function insertComment($pdo, $text, $userid, $questionid) {
+    $sql = "INSERT INTO comment (text, userid, questionid, date) VALUES (:text, :userid, :questionid, NOW())";
+    query($pdo, $sql, [
+        ':text' => $text,
+        ':userid' => $userid,
+        ':questionid' => $questionid
+    ]);
+    return $pdo->lastInsertId();
+}
+
+function getCommentsByQuestion($pdo, $questionid) {
+    $sql = "SELECT c.id, c.text, c.date, c.userid, u.name AS username, u.username, u.avatar
+            FROM comment c
+            LEFT JOIN `user` u ON c.userid = u.id
+            WHERE c.questionid = :questionid
+            ORDER BY c.date DESC";
+    return query($pdo, $sql, [':questionid' => $questionid])->fetchAll();
+}
+
+function getComment($pdo, $id) {
+    $sql = "SELECT c.id, c.text, c.date, c.userid, c.questionid, u.name AS username
+            FROM comment c
+            LEFT JOIN `user` u ON c.userid = u.id
+            WHERE c.id = :id";
+    return query($pdo, $sql, [':id' => $id])->fetch();
+}
+
+function updateComment($pdo, $id, $text) {
+    $sql = "UPDATE comment SET text = :text, date = NOW() WHERE id = :id";
+    query($pdo, $sql, [':text' => $text, ':id' => $id]);
+}
+
+function deleteComment($pdo, $id) {
+    query($pdo, 'DELETE FROM comment WHERE id = :id', [':id' => $id]);
+}
+
+// Module functions
 function allModules($pdo) {
     return query($pdo, 'SELECT id, name FROM module ORDER BY name')->fetchAll();
 }
 
+function insertModule($pdo, $name) {
+    $sql = "INSERT INTO module (name) VALUES (:name)";
+    query($pdo, $sql, [':name' => $name]);
+    return $pdo->lastInsertId();
+}
+
+function updateModule($pdo, $id, $name) {
+    $sql = "UPDATE module SET name = :name WHERE id = :id";
+    query($pdo, $sql, [':name' => $name, ':id' => $id]);
+}
+
+function deleteModule($pdo, $id) {
+    query($pdo, 'DELETE FROM module WHERE id = :id', [':id' => $id]);
+}
+
 ?>
+

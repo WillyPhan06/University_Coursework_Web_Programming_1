@@ -2,6 +2,13 @@
 require __DIR__ . '/../includes/DatabaseConnection.php';
 require __DIR__ . '/../includes/DataBaseFunctions.php';
 
+startUserSession();
+
+if (!isLoggedIn()) {
+    header('Location: ../login.php');
+    exit;
+}
+
 if (!isset($_GET['id']) && $_SERVER['REQUEST_METHOD'] !== 'POST') {
     header('Location: ../index.php');
     exit;
@@ -12,6 +19,21 @@ $modules = allModules($pdo);
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $id = $_POST['id'];
+        $currentUser = getCurrentUser();
+        $question = getQuestion($pdo, $id);
+        
+        if (!$question) {
+            header('Location: ../index.php');
+            exit;
+        }
+        
+        // Check ownership
+        if ($question['userid'] != $currentUser['id'] && !isAdmin()) {
+            header('HTTP/1.1 403 Forbidden');
+            echo 'You cannot edit this question.';
+            exit;
+        }
+        
         $imageFileName = null;
         if (!empty($_FILES['questionimage']) && $_FILES['questionimage']['error'] !== UPLOAD_ERR_NO_FILE) {
             $file = $_FILES['questionimage'];
@@ -41,9 +63,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = $e->getMessage();
     }
 } else {
+    $currentUser = getCurrentUser();
     $question = getQuestion($pdo, $_GET['id']);
     if (!$question) {
         header('Location: ../index.php');
+        exit;
+    }
+    
+    // Check ownership
+    if ($question['userid'] != $currentUser['id'] && !isAdmin()) {
+        header('HTTP/1.1 403 Forbidden');
+        echo 'You cannot edit this question.';
         exit;
     }
 }

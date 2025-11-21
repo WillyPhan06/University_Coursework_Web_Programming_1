@@ -2,6 +2,13 @@
 require __DIR__ . '/../includes/DatabaseConnection.php';
 require __DIR__ . '/../includes/DataBaseFunctions.php';
 
+startUserSession();
+
+if (!isLoggedIn()) {
+    header('Location: ../login.php');
+    exit;
+}
+
 $modules = allModules($pdo);
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -24,8 +31,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         }
 
-        $userid = !empty($_POST['userid']) ? $_POST['userid'] : null;
         $moduleid = !empty($_POST['moduleid']) ? $_POST['moduleid'] : null;
+        $userid = getCurrentUser()['id'];
         insertQuestion($pdo, $_POST['questiontext'], $userid, $moduleid, $imageFileName);
         header('Location: ../index.php');
         exit;

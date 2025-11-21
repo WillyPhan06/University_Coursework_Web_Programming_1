@@ -75,23 +75,25 @@ INSERT INTO `question` (`id`, `text`, `date`, `userid`, `moduleid`, `img`) VALUE
 
 CREATE TABLE `user` (
   `id` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL UNIQUE,
   `name` varchar(100) NOT NULL,
-  `email` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL UNIQUE,
   `password` varchar(255) NOT NULL,
   `role` enum('user','admin') NOT NULL DEFAULT 'user',
-  `avatar` varchar(255) DEFAULT NULL
+  `avatar` varchar(255) DEFAULT NULL,
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `user`
 --
 
-INSERT INTO `user` (`id`, `name`, `email`, `password`, `role`, `avatar`) VALUES
-(1, 'Willy Phan', 'willy@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', 'w.jpg'),
-(2, 'Alice Nguyen', 'alice@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', 'a.jpg'),
-(3, 'Bob Tran', 'bob@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', 'b.jpg'),
-(4, 'Admin User', 'admin@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 'admin.jpg'),
-(5, 'Test Register', 'register@example.com', '$2y$10$4bEzBz3kauuwcK3rIqX0ieUTjZ3nIQ33ZiIv.AClN9vDoGfNwgcFW', 'user', 'registertest.jpg');
+INSERT INTO `user` (`id`, `username`, `name`, `email`, `password`, `role`, `avatar`, `created_at`) VALUES
+(1, 'willyphan', 'Willy Phan', 'willy@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', 'w.jpg', '2025-10-20 08:00:00'),
+(2, 'alice_nguyen', 'Alice Nguyen', 'alice@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', 'a.jpg', '2025-10-20 09:00:00'),
+(3, 'bob_tran', 'Bob Tran', 'bob@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'user', 'b.jpg', '2025-10-20 10:00:00'),
+(4, 'admin_user', 'Admin User', 'admin@example.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'admin', 'admin.jpg', '2025-10-20 07:00:00'),
+(5, 'testuser', 'Test Register', 'register@example.com', '$2y$10$4bEzBz3kauuwcK3rIqX0ieUTjZ3nIQ33ZiIv.AClN9vDoGfNwgcFW', 'user', 'registertest.jpg', '2025-10-25 12:00:00');
 
 -- --------------------------------------------------------
 
@@ -102,10 +104,18 @@ INSERT INTO `user` (`id`, `name`, `email`, `password`, `role`, `avatar`) VALUES
 CREATE TABLE `comment` (
   `id` int(11) NOT NULL,
   `text` text NOT NULL,
-  `date` datetime NOT NULL,
+  `date` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `userid` int(11) NOT NULL,
   `questionid` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Dumping data for table `comment`
+--
+
+INSERT INTO `comment` (`id`, `text`, `date`, `userid`, `questionid`) VALUES
+(1, 'Great question! Tuples are immutable while lists are mutable.', '2025-10-24 11:00:00', 2, 1),
+(2, 'This really helped me understand the difference!', '2025-10-24 12:30:00', 3, 1);
 
 -- --------------------------------------------------------
 
@@ -150,7 +160,7 @@ ALTER TABLE `user`
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT for table `module`
