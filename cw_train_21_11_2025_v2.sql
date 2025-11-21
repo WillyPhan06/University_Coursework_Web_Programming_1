@@ -40,9 +40,8 @@ CREATE TABLE `comment` (
 --
 
 INSERT INTO `comment` (`id`, `text`, `date`, `userid`, `questionid`) VALUES
-(0, 'I need answers please', '2025-11-21 16:22:03', 1, 1),
-(1, 'Great question! Tuples are immutable while lists are mutable.', '2025-10-24 11:00:00', 2, 1),
-(2, 'This really helped me understand the difference!', '2025-10-24 12:30:00', 3, 1);
+ (1, 'Great question! Tuples are immutable while lists are mutable.', '2025-10-24 11:00:00', 2, 1),
+ (2, 'This really helped me understand the difference!', '2025-10-24 12:30:00', 3, 1);
 
 --
 -- Indexes for dumped tables
@@ -55,6 +54,9 @@ ALTER TABLE `comment`
   ADD PRIMARY KEY (`id`),
   ADD KEY `userid` (`userid`),
   ADD KEY `questionid` (`questionid`);
+-- Ensure id auto-increments for new inserts (fix duplicate-id=0 issue)
+ALTER TABLE `comment`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

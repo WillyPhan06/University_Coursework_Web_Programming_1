@@ -9,8 +9,15 @@ if (!isLoggedIn()) {
     exit;
 }
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id'])) {
+// Accept id from POST (preferred) or GET (handle cases where JS/links are used)
+$commentid = null;
+if (!empty($_POST['id'])) {
     $commentid = (int)$_POST['id'];
+} elseif (!empty($_GET['id'])) {
+    $commentid = (int)$_GET['id'];
+}
+
+if ($commentid !== null) {
     $comment = getComment($pdo, $commentid);
     
     if (!$comment) {
@@ -31,9 +38,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id'])) {
     deleteComment($pdo, $commentid);
     header('Location: question.php?id=' . $comment['questionid']);
     exit;
+} else {
+    // No id supplied - log and redirect back
+    error_log('deletecomment.php called without id. REQUEST: ' . json_encode($_REQUEST));
+    header('Location: index.php');
+    exit;
 }
-
-// If accessed via GET or without POST id, redirect to index
-header('Location: index.php');
-exit;
 ?>
