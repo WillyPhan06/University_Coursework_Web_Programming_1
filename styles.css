@@ -1,0 +1,8 @@
+body { font-family: Arial, Helvetica, sans-serif; max-width:1000px; margin:20px auto; }
+header { background:#4a90e2; color:white; padding:12px; margin-bottom:18px; }
+header h1 { margin:0; }
+nav { margin-top:6px; }
+main { background:#fff; padding:18px; box-shadow:0 0 6px rgba(0,0,0,0.06); }
+footer { margin-top:18px; color:#666; font-size:0.9em; }
+img { max-width:100%; height:auto; }
+form label { font-weight:bold; }
