@@ -32,7 +32,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id'])) {
     header('Location: ../question.php?id=' . $comment['questionid']);
     exit;
 }
-
-header('Location: ../index.php');
-exit;
 ?>

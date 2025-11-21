@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } else {
         try {
             $user = getCurrentUser();
-            if (!$user || !isset($user['id'])) {
+            if (!$user || !isset($user['id']) || $user['id'] <= 0) {
                 $error = 'User session error. Please log in again.';
             } else {
                 insertComment($pdo, $text, $user['id'], $questionid);
@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             }
         } catch (Exception $e) {
             error_log('Comment insertion error: ' . $e->getMessage());
-            $error = 'Failed to add comment: ' . $e->getMessage();
+            $error = 'Failed to add comment.';
         }
     }
 }
