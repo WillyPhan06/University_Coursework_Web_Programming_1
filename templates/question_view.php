@@ -31,10 +31,15 @@
         $currentUser = getCurrentUser();
         $isOwner = ($currentUser && $currentUser['id'] == $question['userid']);
         $isAdmin = isAdmin();
-        if ($isOwner || $isAdmin):
+        if ($isOwner):
         ?>
             <a href="admin/editquestion.php?id=<?=htmlspecialchars($question['id'])?>">Edit</a>
             | <form action="admin/deletequestion.php" method="post" style="display:inline; margin:0;">
+                <input type="hidden" name="id" value="<?=htmlspecialchars($question['id'])?>">
+                <input type="submit" value="Delete" onclick="return confirm('Delete this question?');" style="background:none; border:none; color:#d9534f; cursor:pointer; text-decoration:underline; padding:0;">
+            </form>
+        <?php elseif ($isAdmin): ?>
+            <form action="admin/deletequestion.php" method="post" style="display:inline; margin:0;">
                 <input type="hidden" name="id" value="<?=htmlspecialchars($question['id'])?>">
                 <input type="submit" value="Delete" onclick="return confirm('Delete this question?');" style="background:none; border:none; color:#d9534f; cursor:pointer; text-decoration:underline; padding:0;">
             </form>
@@ -80,11 +85,18 @@
                     
                     <?php 
                     $isCommentOwner = ($currentUser && $currentUser['id'] == $c['userid']);
-                    if ($isCommentOwner || $isAdmin):
+                    if ($isCommentOwner):
                     ?>
                         <div style="margin-top:10px;">
-                            <a href="admin/editcomment.php?id=<?=htmlspecialchars($c['id'])?>" style="font-size:0.9em; color:#4a90e2; text-decoration:none;">Edit</a>
+                            <a href="admin/editcomment.php?id=<?=htmlspecialchars($c['id'])?>">Edit</a>
                             | <form action="admin/deletecomment.php" method="post" style="display:inline; margin:0;">
+                                <input type="hidden" name="id" value="<?=htmlspecialchars($c['id'])?>">
+                                <input type="submit" value="Delete" onclick="return confirm('Delete this comment?');" style="background:none; border:none; color:#d9534f; cursor:pointer; text-decoration:underline; padding:0; font-size:0.9em;">
+                            </form>
+                        </div>
+                    <?php elseif ($isAdmin && $currentUser && $currentUser['id'] != $c['userid']): ?>
+                        <div style="margin-top:10px;">
+                            <form action="admin/deletecomment.php" method="post" style="display:inline; margin:0;">
                                 <input type="hidden" name="id" value="<?=htmlspecialchars($c['id'])?>">
                                 <input type="submit" value="Delete" onclick="return confirm('Delete this comment?');" style="background:none; border:none; color:#d9534f; cursor:pointer; text-decoration:underline; padding:0; font-size:0.9em;">
                             </form>

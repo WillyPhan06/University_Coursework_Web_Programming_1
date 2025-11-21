@@ -33,11 +33,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $error = 'Comment is too long (max 5000 characters).';
     } else {
         try {
-            insertComment($pdo, $text, getCurrentUser()['id'], $questionid);
-            header('Location: ../question.php?id=' . $questionid);
-            exit;
+            $user = getCurrentUser();
+            if (!$user || !isset($user['id'])) {
+                $error = 'User session error. Please log in again.';
+            } else {
+                insertComment($pdo, $text, $user['id'], $questionid);
+                header('Location: ../question.php?id=' . $questionid);
+                exit;
+            }
         } catch (Exception $e) {
-            $error = 'Failed to add comment.';
+            error_log('Comment insertion error: ' . $e->getMessage());
+            $error = 'Failed to add comment: ' . $e->getMessage();
         }
     }
 }

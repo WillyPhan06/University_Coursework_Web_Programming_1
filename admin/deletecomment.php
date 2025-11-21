@@ -29,8 +29,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id'])) {
     }
     
     deleteComment($pdo, $commentid);
+    header('Location: ../question.php?id=' . $comment['questionid']);
+    exit;
 }
 
-header('Location: ../question.php?id=' . ($comment['questionid'] ?? 0));
+header('Location: ../index.php');
 exit;
 ?>
