@@ -4,17 +4,17 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <title><?=htmlspecialchars($title)?></title>
-    <link rel="stylesheet" href="styles.css">
+    <?php $navBase = (strpos($_SERVER['PHP_SELF'], '/admin/') !== false) ? '../' : ''; ?>
+    <link rel="stylesheet" href="<?= $navBase ?>styles.css">
 </head>
 <body>
     <header>
         <h1>Student Q&amp;A</h1>
-        <?php $navBase = (strpos($_SERVER['PHP_SELF'], '/admin/') !== false) ? '../' : ''; ?>
         <nav>
             <a href="<?= $navBase ?>index.php">Home</a> |
             <?php if (isLoggedIn()): ?>
                 <a href="<?= $navBase ?>profile.php?username=<?=htmlspecialchars(getCurrentUser()['username'])?>">My Profile</a> |
-                <a href="<?= $navBase ?>admin/addquestion.php">Add Question</a> |
+                <a href="<?= $navBase ?>addquestion.php">Add Question</a> |
                 <?php if (isAdmin()): ?>
                     <a href="<?= $navBase ?>admin/admin_panel.php">Admin Panel</a> |
                 <?php endif; ?>
