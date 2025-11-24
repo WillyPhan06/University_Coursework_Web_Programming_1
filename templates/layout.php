@@ -9,21 +9,22 @@
 <body>
     <header>
         <h1>Student Q&amp;A</h1>
+        <?php $navBase = (strpos($_SERVER['PHP_SELF'], '/admin/') !== false) ? '../' : ''; ?>
         <nav>
-            <a href="<?php echo (strpos($_SERVER['PHP_SELF'], '/admin/') !== false) ? '../index.php' : 'index.php'; ?>">Home</a> |
+            <a href="<?= $navBase ?>index.php">Home</a> |
             <?php if (isLoggedIn()): ?>
-                <a href="profile.php?username=<?=htmlspecialchars(getCurrentUser()['username'])?>">My Profile</a> |
-                <a href="admin/addquestion.php">Add Question</a> |
+                <a href="<?= $navBase ?>profile.php?username=<?=htmlspecialchars(getCurrentUser()['username'])?>">My Profile</a> |
+                <a href="<?= $navBase ?>admin/addquestion.php">Add Question</a> |
                 <?php if (isAdmin()): ?>
-                    <a href="admin/admin_panel.php">Admin Panel</a> |
+                    <a href="<?= $navBase ?>admin/admin_panel.php">Admin Panel</a> |
                 <?php endif; ?>
-                <a href="contact.php">Contact</a> |
+                <a href="<?= $navBase ?>contact.php">Contact</a> |
                 <span>Hello, <?=htmlspecialchars(getCurrentUser()['name'])?>!</span> |
-                <a href="logout.php">Logout</a>
+                <a href="<?= $navBase ?>logout.php">Logout</a>
             <?php else: ?>
-                <a href="login.php">Login</a> |
-                <a href="register.php">Register</a> |
-                <a href="contact.php">Contact</a>
+                <a href="<?= $navBase ?>login.php">Login</a> |
+                <a href="<?= $navBase ?>register.php">Register</a> |
+                <a href="<?= $navBase ?>contact.php">Contact</a>
             <?php endif; ?>
         </nav>
     </header>

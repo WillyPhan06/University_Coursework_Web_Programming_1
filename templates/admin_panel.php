@@ -1,5 +1,11 @@
 <div class="admin-panel">
     <h2>Admin Panel</h2>
+    <nav style="margin-bottom:12px;">
+        <a href="#users" style="margin-right:10px;">Users (<?=count($allUsers)?>)</a>
+        <a href="#modules" style="margin-right:10px;">Modules (<?=count($allModules)?>)</a>
+        <a href="#questions" style="margin-right:10px;">Questions (<?=count($allQuestions)?>)</a>
+        <a href="#comments">Comments (<?=count($allComments)?>)</a>
+    </nav>
     
     <?php if (!empty($successMessage)): ?>
         <div class="alert alert-success"><?=htmlspecialchars($successMessage)?></div>
@@ -9,7 +15,7 @@
         <div class="alert alert-error"><?=htmlspecialchars($errorMessage)?></div>
     <?php endif; ?>
 
-    <div class="admin-section">
+    <div class="admin-section" id="users">
         <h3>Manage Users (<?=count($allUsers)?>)</h3>
         <div class="table-responsive">
             <table class="admin-table">
@@ -49,7 +55,7 @@
         </div>
     </div>
 
-    <div class="admin-section">
+    <div class="admin-section" id="modules">
         <h3>Manage Modules (<?=count($allModules)?>)</h3>
         <div class="table-responsive">
             <table class="admin-table">
@@ -77,7 +83,7 @@
         </div>
     </div>
 
-    <div class="admin-section">
+    <div class="admin-section" id="questions">
         <h3>Manage Questions (<?=count($allQuestions)?>)</h3>
         <div class="table-responsive">
             <table class="admin-table">
@@ -111,7 +117,7 @@
         </div>
     </div>
 
-    <div class="admin-section">
+    <div class="admin-section" id="comments">
         <h3>Manage Comments (<?=count($allComments)?>)</h3>
         <div class="table-responsive">
             <table class="admin-table">

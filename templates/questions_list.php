@@ -31,20 +31,25 @@
                    <strong>By:</strong> <a href="profile.php?username=<?=htmlspecialchars($q['username'])?>" style="text-decoration:none; color:#4a90e2;"><?=htmlspecialchars($q['name'] ?? 'Unknown')?></a></p>
                 <p><small>Posted on <?=htmlspecialchars($q['date'])?></small></p>
                 <p>
-                    <?php 
-                    $currentUser = getCurrentUser();
-                    $isOwner = ($currentUser && $currentUser['id'] == $q['userid']);
-                    $isAdmin = isAdmin();
-                    if ($isOwner || $isAdmin):
-                    ?>
-                        <a href="admin/editquestion.php?id=<?=htmlspecialchars($q['id'])?>">Edit</a> |
-                        <form action="admin/deletequestion.php" method="post" style="display:inline; margin:0;">
-                            <input type="hidden" name="id" value="<?=htmlspecialchars($q['id'])?>">
-                            <input type="submit" value="Delete" onclick="return confirm('Delete this question?');" style="background:none; border:none; color:#d9534f; cursor:pointer; text-decoration:underline; padding:0;">
-                        </form>
-                    <?php else: ?>
-                        <a href="question.php?id=<?=htmlspecialchars($q['id'])?>">View</a>
-                    <?php endif; ?>
+                        <?php 
+                        $currentUser = getCurrentUser();
+                        $isOwner = ($currentUser && $currentUser['id'] == $q['userid']);
+                        $isAdmin = isAdmin();
+                        if ($isOwner):
+                        ?>
+                            <a href="admin/editquestion.php?id=<?=htmlspecialchars($q['id'])?>">Edit</a> |
+                            <form action="admin/deletequestion.php" method="post" style="display:inline; margin:0;">
+                                <input type="hidden" name="id" value="<?=htmlspecialchars($q['id'])?>">
+                                <input type="submit" value="Delete" onclick="return confirm('Delete this question?');" style="background:none; border:none; color:#d9534f; cursor:pointer; text-decoration:underline; padding:0;">
+                            </form>
+                        <?php elseif ($isAdmin): ?>
+                            <form action="admin/deletequestion.php" method="post" style="display:inline; margin:0;">
+                                <input type="hidden" name="id" value="<?=htmlspecialchars($q['id'])?>">
+                                <input type="submit" value="Delete" onclick="return confirm('Delete this question?');" style="background:none; border:none; color:#d9534f; cursor:pointer; text-decoration:underline; padding:0;">
+                            </form>
+                        <?php else: ?>
+                            <a href="question.php?id=<?=htmlspecialchars($q['id'])?>">View</a>
+                        <?php endif; ?>
                 </p>
                 <div style="clear:both;"></div>
             </div>
