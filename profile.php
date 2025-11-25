@@ -18,26 +18,11 @@ if (!$user) {
     exit;
 }
 
-// Get user's questions
-$sql = "SELECT q.id, q.text AS questiontext, q.date, q.img, q.moduleid,
-               m.name AS modulename
-        FROM question q
-        LEFT JOIN module m ON q.moduleid = m.id
-        WHERE q.userid = :userid
-        ORDER BY q.date DESC";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([':userid' => $user['id']]);
-$userQuestions = $stmt->fetchAll();
+// Get user's questions using database function
+$userQuestions = getUserQuestions($pdo, $user['id']);
 
-// Get user's comments
-$sql = "SELECT c.id, c.text, c.date, q.id AS questionid, q.text AS questiontext
-        FROM comment c
-        JOIN question q ON c.questionid = q.id
-        WHERE c.userid = :userid
-        ORDER BY c.date DESC";
-$stmt = $pdo->prepare($sql);
-$stmt->execute([':userid' => $user['id']]);
-$userComments = $stmt->fetchAll();
+// Get user's comments using database function
+$userComments = getUserComments($pdo, $user['id']);
 
 $title = "Profile - " . htmlspecialchars($user['name']);
 ob_start();

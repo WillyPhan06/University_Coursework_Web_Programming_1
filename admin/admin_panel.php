@@ -10,19 +10,11 @@ if (!isAdmin()) {
     exit;
 }
 
+// Get all data using database functions
 $allUsers = getAllUsers($pdo);
 $allModules = allModules($pdo);
 $allQuestions = allQuestions($pdo);
-
-// Get all comments
-$sql = "SELECT c.id, c.text, c.date, c.userid, c.questionid, u.username, u.name, q.text AS questiontext
-        FROM comment c
-        LEFT JOIN `user` u ON c.userid = u.id
-        LEFT JOIN question q ON c.questionid = q.id
-        ORDER BY c.date DESC";
-$stmt = $pdo->prepare($sql);
-$stmt->execute();
-$allComments = $stmt->fetchAll();
+$allComments = getAllComments($pdo);
 
 $successMessage = '';
 $errorMessage = '';
@@ -66,14 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $allUsers = getAllUsers($pdo);
                 $allModules = allModules($pdo);
                 $allQuestions = allQuestions($pdo);
-                $sql = "SELECT c.id, c.text, c.date, c.userid, c.questionid, u.username, u.name, q.text AS questiontext
-                        FROM comment c
-                        LEFT JOIN `user` u ON c.userid = u.id
-                        LEFT JOIN question q ON c.questionid = q.id
-                        ORDER BY c.date DESC";
-                $stmt = $pdo->prepare($sql);
-                $stmt->execute();
-                $allComments = $stmt->fetchAll();
+                $allComments = getAllComments($pdo);
             }
         } catch (Exception $e) {
             $errorMessage = 'Error: ' . $e->getMessage();

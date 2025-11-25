@@ -164,6 +164,36 @@ function deleteComment($pdo, $id) {
     query($pdo, 'DELETE FROM comment WHERE id = :id', [':id' => $id]);
 }
 
+// NEW FUNCTIONS FOR ADMIN PANEL
+function getAllComments($pdo) {
+    $sql = "SELECT c.id, c.text, c.date, c.userid, c.questionid, u.username, u.name, q.text AS questiontext
+            FROM comment c
+            LEFT JOIN `user` u ON c.userid = u.id
+            LEFT JOIN question q ON c.questionid = q.id
+            ORDER BY c.date DESC";
+    return query($pdo, $sql)->fetchAll();
+}
+
+// NEW FUNCTIONS FOR USER PROFILE
+function getUserQuestions($pdo, $userid) {
+    $sql = "SELECT q.id, q.text AS questiontext, q.date, q.img, q.moduleid,
+                   m.name AS modulename
+            FROM question q
+            LEFT JOIN module m ON q.moduleid = m.id
+            WHERE q.userid = :userid
+            ORDER BY q.date DESC";
+    return query($pdo, $sql, [':userid' => $userid])->fetchAll();
+}
+
+function getUserComments($pdo, $userid) {
+    $sql = "SELECT c.id, c.text, c.date, q.id AS questionid, q.text AS questiontext
+            FROM comment c
+            JOIN question q ON c.questionid = q.id
+            WHERE c.userid = :userid
+            ORDER BY c.date DESC";
+    return query($pdo, $sql, [':userid' => $userid])->fetchAll();
+}
+
 // Module functions
 function allModules($pdo) {
     return query($pdo, 'SELECT id, name FROM module ORDER BY name')->fetchAll();
@@ -185,4 +215,3 @@ function deleteModule($pdo, $id) {
 }
 
 ?>
-
