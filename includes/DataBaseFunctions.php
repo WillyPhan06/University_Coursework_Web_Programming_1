@@ -79,6 +79,17 @@ function deleteUser($pdo, $id) {
     query($pdo, 'DELETE FROM `user` WHERE id = :id', [':id' => $id]);
 }
 
+function updateUserRole($pdo, $id, $role) {
+    // Convert role to lowercase for case-insensitivity
+    $role = strtolower(trim($role));
+    // Validate role
+    if (!in_array($role, ['user', 'admin'])) {
+        throw new Exception('Invalid role. Must be "user" or "admin".');
+    }
+    $sql = "UPDATE `user` SET role = :role WHERE id = :id";
+    query($pdo, $sql, [':role' => $role, ':id' => $id]);
+}
+
 // Question functions
 function query($pdo, $sql, $params = []) {
     $stmt = $pdo->prepare($sql);
@@ -197,6 +208,11 @@ function getUserComments($pdo, $userid) {
 // Module functions
 function allModules($pdo) {
     return query($pdo, 'SELECT id, name FROM module ORDER BY name')->fetchAll();
+}
+
+function getModule($pdo, $id) {
+    $sql = "SELECT id, name FROM module WHERE id = :id";
+    return query($pdo, $sql, [':id' => $id])->fetch();
 }
 
 function insertModule($pdo, $name) {

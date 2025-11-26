@@ -35,7 +35,16 @@
                             <td><?=htmlspecialchars($u['username'])?></td>
                             <td><?=htmlspecialchars($u['name'])?></td>
                             <td><?=htmlspecialchars($u['email'])?></td>
-                            <td><?=htmlspecialchars($u['role'])?></td>
+                            <td>
+                                <form action="" method="post" style="display:inline; margin:0;">
+                                    <input type="hidden" name="action" value="edit_user_role">
+                                    <input type="hidden" name="user_id" value="<?=htmlspecialchars($u['id'])?>">
+                                    <select name="role" onchange="this.form.submit()" style="padding:5px; border:1px solid #ccc; border-radius:3px;">
+                                        <option value="user" <?=$u['role'] === 'user' ? 'selected' : ''?>>User</option>
+                                        <option value="admin" <?=$u['role'] === 'admin' ? 'selected' : ''?>>Admin</option>
+                                    </select>
+                                </form>
+                            </td>
                             <td><?=htmlspecialchars(date('M d, Y', strtotime($u['created_at'])))?></td>
                             <td>
                                 <?php if ($u['id'] != getCurrentUser()['id']): ?>
@@ -57,6 +66,23 @@
 
     <div class="admin-section" id="modules">
         <h3>Manage Modules (<?=count($allModules)?>)</h3>
+        
+        <!-- Add New Module Form -->
+        <div style="background:#f0f8ff; padding:15px; border-radius:4px; margin-bottom:20px; border:1px solid #4a90e2;">
+            <h4 style="margin-top:0; color:#4a90e2;">Add New Module</h4>
+            <form action="" method="post" style="display:flex; gap:10px; align-items:flex-end;">
+                <input type="hidden" name="action" value="add_module">
+                <div style="flex:1;">
+                    <label for="new_module_name" style="display:block; margin-bottom:5px; font-weight:bold;">Module Name:</label>
+                    <input type="text" id="new_module_name" name="module_name" required maxlength="100" 
+                           style="width:100%; padding:8px; border:1px solid #ccc; border-radius:4px; box-sizing:border-box;">
+                </div>
+                <button type="submit" style="padding:8px 16px; background:#5cb85c; color:white; border:none; border-radius:4px; cursor:pointer; font-weight:bold;">
+                    Add Module
+                </button>
+            </form>
+        </div>
+
         <div class="table-responsive">
             <table class="admin-table">
                 <thead>
@@ -68,7 +94,18 @@
                 <tbody>
                     <?php foreach ($allModules as $m): ?>
                         <tr>
-                            <td><?=htmlspecialchars($m['name'])?></td>
+                            <td>
+                                <form action="" method="post" style="display:flex; gap:10px; align-items:center; margin:0;">
+                                    <input type="hidden" name="action" value="edit_module">
+                                    <input type="hidden" name="module_id" value="<?=htmlspecialchars($m['id'])?>">
+                                    <input type="text" name="module_name" value="<?=htmlspecialchars($m['name'])?>" 
+                                           required maxlength="100" 
+                                           style="flex:1; padding:6px; border:1px solid #ccc; border-radius:3px;">
+                                    <button type="submit" style="padding:5px 12px; background:#5cb85c; color:white; border:none; border-radius:3px; cursor:pointer;">
+                                        Update
+                                    </button>
+                                </form>
+                            </td>
                             <td>
                                 <form action="" method="post" style="display:inline;">
                                     <input type="hidden" name="action" value="delete_module">
@@ -175,6 +212,11 @@
         margin-bottom: 15px;
         border-bottom: 2px solid #4a90e2;
         padding-bottom: 10px;
+    }
+
+    .admin-section h4 {
+        margin-bottom: 10px;
+        color: #333;
     }
 
     .table-responsive {
