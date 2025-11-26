@@ -33,13 +33,13 @@
         $isAdmin = isAdmin();
         if ($isOwner):
         ?>
-            <a href="admin/editquestion.php?id=<?=htmlspecialchars($question['id'])?>">Edit</a>
-            | <form action="admin/deletequestion.php" method="post" style="display:inline; margin:0;">
+            <a href="editquestion.php?id=<?=htmlspecialchars($question['id'])?>">Edit</a>
+            | <form action="deletequestion.php" method="post" style="display:inline; margin:0;">
                 <input type="hidden" name="id" value="<?=htmlspecialchars($question['id'])?>">
                 <input type="submit" value="Delete" onclick="return confirm('Delete this question?');" style="background:none; border:none; color:#d9534f; cursor:pointer; text-decoration:underline; padding:0;">
             </form>
         <?php elseif ($isAdmin): ?>
-            <form action="admin/deletequestion.php" method="post" style="display:inline; margin:0;">
+            <form action="deletequestion.php" method="post" style="display:inline; margin:0;">
                 <input type="hidden" name="id" value="<?=htmlspecialchars($question['id'])?>">
                 <input type="submit" value="Delete" onclick="return confirm('Delete this question?');" style="background:none; border:none; color:#d9534f; cursor:pointer; text-decoration:underline; padding:0;">
             </form>
