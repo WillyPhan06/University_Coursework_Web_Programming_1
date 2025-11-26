@@ -36,14 +36,18 @@
                             <td><?=htmlspecialchars($u['name'])?></td>
                             <td><?=htmlspecialchars($u['email'])?></td>
                             <td>
-                                <form action="" method="post" style="display:inline; margin:0;">
-                                    <input type="hidden" name="action" value="edit_user_role">
-                                    <input type="hidden" name="user_id" value="<?=htmlspecialchars($u['id'])?>">
-                                    <select name="role" onchange="this.form.submit()" style="padding:5px; border:1px solid #ccc; border-radius:3px;">
-                                        <option value="user" <?=$u['role'] === 'user' ? 'selected' : ''?>>User</option>
-                                        <option value="admin" <?=$u['role'] === 'admin' ? 'selected' : ''?>>Admin</option>
-                                    </select>
-                                </form>
+                                <?php if ($u['id'] != getCurrentUser()['id']): ?>
+                                    <form action="" method="post" style="display:inline; margin:0;">
+                                        <input type="hidden" name="action" value="edit_user_role">
+                                        <input type="hidden" name="user_id" value="<?=htmlspecialchars($u['id'])?>">
+                                        <select name="role" onchange="this.form.submit()" style="padding:5px; border:1px solid #ccc; border-radius:3px;">
+                                            <option value="user" <?=$u['role'] === 'user' ? 'selected' : ''?>>User</option>
+                                            <option value="admin" <?=$u['role'] === 'admin' ? 'selected' : ''?>>Admin</option>
+                                        </select>
+                                    </form>
+                                <?php else: ?>
+                                    <span style="color:#666; font-weight:bold;"><?=ucfirst($u['role'])?> (You)</span>
+                                <?php endif; ?>
                             </td>
                             <td><?=htmlspecialchars(date('M d, Y', strtotime($u['created_at'])))?></td>
                             <td>

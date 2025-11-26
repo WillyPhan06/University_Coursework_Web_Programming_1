@@ -1,0 +1,33 @@
+# XAMPP / PHP project
+
+# Composer dependencies
+/vendor/
+
+# Environment variables
+.env
+
+# IDE / Editor files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Temporary / cache files
+/tmp/
+*.cache
+
+# PHPStorm / JetBrains
+*.iml
+out/
+
+# Node / frontend stuff (if any)
+node_modules/
+dist/
+
+# Ignore uploaded files / images if you want (optional)
+# images/uploads/
