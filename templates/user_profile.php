@@ -1,10 +1,42 @@
 <div class="user-profile">
+    <?php if (!empty($successMessage)): ?>
+        <div class="alert alert-success"><?=htmlspecialchars($successMessage)?></div>
+    <?php endif; ?>
+    
+    <?php if (!empty($errorMessage)): ?>
+        <div class="alert alert-error"><?=htmlspecialchars($errorMessage)?></div>
+    <?php endif; ?>
+
     <div class="profile-header">
-        <?php if (!empty($user['avatar'])): ?>
-            <img src="images/avatars/<?=htmlspecialchars($user['avatar'])?>" alt="<?=htmlspecialchars($user['name'])?>" class="profile-avatar">
-        <?php else: ?>
-            <div class="profile-avatar-placeholder">No Avatar</div>
-        <?php endif; ?>
+        <div class="avatar-section">
+            <?php if (!empty($user['avatar'])): ?>
+                <img src="images/avatars/<?=htmlspecialchars($user['avatar'])?>" alt="<?=htmlspecialchars($user['name'])?>" class="profile-avatar">
+            <?php else: ?>
+                <div class="profile-avatar-placeholder">No Avatar</div>
+            <?php endif; ?>
+            
+            <?php if ($isOwnProfile): ?>
+                <div class="avatar-actions">
+                    <form method="post" action="" enctype="multipart/form-data" style="margin-top:10px;">
+                        <input type="hidden" name="action" value="upload_avatar">
+                        <input type="file" name="avatar" id="avatar" accept="image/*" style="display:none;" onchange="this.form.submit()">
+                        <label for="avatar" style="padding:6px 12px; background:#5cb85c; color:white; border-radius:3px; cursor:pointer; display:inline-block; font-size:0.9em;">
+                            <?=!empty($user['avatar']) ? 'Change Avatar' : 'Upload Avatar'?>
+                        </label>
+                    </form>
+                    
+                    <?php if (!empty($user['avatar'])): ?>
+                        <form method="post" action="" style="margin-top:5px;">
+                            <input type="hidden" name="action" value="delete_avatar">
+                            <button type="submit" onclick="return confirm('Delete your avatar?');" style="padding:6px 12px; background:#d9534f; color:white; border:none; border-radius:3px; cursor:pointer; font-size:0.9em;">
+                                Delete Avatar
+                            </button>
+                        </form>
+                    <?php endif; ?>
+                    <p style="margin-top:5px; font-size:0.85em; color:#666;">Max 2MB (JPG, PNG, GIF)</p>
+                </div>
+            <?php endif; ?>
+        </div>
         
         <div class="profile-info">
             <h2><?=htmlspecialchars($user['name'])?></h2>
@@ -66,6 +98,16 @@
         margin-bottom: 30px;
     }
 
+    .avatar-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .avatar-actions {
+        text-align: center;
+    }
+
     .profile-avatar {
         width: 150px;
         height: 150px;
@@ -84,6 +126,10 @@
         justify-content: center;
         color: #999;
         border: 3px solid #ccc;
+    }
+
+    .profile-info {
+        flex: 1;
     }
 
     .profile-info h2 {
@@ -140,6 +186,24 @@
 
     .comment-card small {
         color: #666;
+    }
+
+    .alert {
+        padding: 12px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
     }
 
     @media (max-width: 600px) {

@@ -23,7 +23,10 @@
         <label for="questionimage">Optional image</label><br>
         <input type="file" name="questionimage" accept="image/*">
         <?php if (!empty($question['img'])): ?>
-            <div>Current: <img src="images/<?=htmlspecialchars($question['img'])?>" style="max-width:100px; display:block;"></div>
+            <div style="margin-top:10px;">
+                <strong>Current image:</strong><br>
+                <img src="images/questions/<?=htmlspecialchars($question['img'])?>" style="max-width:200px; display:block; margin-top:5px; border:1px solid #ddd; padding:5px;">
+            </div>
         <?php endif; ?>
     </p>
 
@@ -33,6 +36,6 @@
 
     <p>
         <input type="submit" value="Save">
-        <a href="../index.php">Cancel</a>
+        <a href="index.php">Cancel</a>
     </p>
 </form>

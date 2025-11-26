@@ -90,6 +90,16 @@ function updateUserRole($pdo, $id, $role) {
     query($pdo, $sql, [':role' => $role, ':id' => $id]);
 }
 
+function updateUserAvatar($pdo, $id, $avatar) {
+    $sql = "UPDATE `user` SET avatar = :avatar WHERE id = :id";
+    query($pdo, $sql, [':avatar' => $avatar, ':id' => $id]);
+}
+
+function deleteUserAvatar($pdo, $id) {
+    $sql = "UPDATE `user` SET avatar = NULL WHERE id = :id";
+    query($pdo, $sql, [':id' => $id]);
+}
+
 // Question functions
 function query($pdo, $sql, $params = []) {
     $stmt = $pdo->prepare($sql);

@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($file['size'] <= 3 * 1024 * 1024) {
                     $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
                     $imageFileName = uniqid('qimg_', true) . '.' . $ext;
-                    $destination = __DIR__ . '/images/' . $imageFileName;
+                    $destination = __DIR__ . '/images/questions/' . $imageFileName;
                     move_uploaded_file($file['tmp_name'], $destination);
                 } else {
                     throw new Exception('Image is too large (max 3MB).');

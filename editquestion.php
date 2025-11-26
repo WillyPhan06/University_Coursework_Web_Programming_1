@@ -1,16 +1,16 @@
 <?php
-require __DIR__ . '/../includes/DatabaseConnection.php';
-require __DIR__ . '/../includes/DataBaseFunctions.php';
+require 'includes/DatabaseConnection.php';
+require 'includes/DataBaseFunctions.php';
 
 startUserSession();
 
 if (!isLoggedIn()) {
-    header('Location: ../login.php');
+    header('Location: login.php');
     exit;
 }
 
 if (!isset($_GET['id']) && $_SERVER['REQUEST_METHOD'] !== 'POST') {
-    header('Location: ../index.php');
+    header('Location: index.php');
     exit;
 }
 
@@ -23,12 +23,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $question = getQuestion($pdo, $id);
         
         if (!$question) {
-            header('Location: ../index.php');
+            header('Location: index.php');
             exit;
         }
         
-        // Check ownership
-        if ($question['userid'] != $currentUser['id'] && !isAdmin()) {
+        // Check ownership - only owner can edit
+        if ($question['userid'] != $currentUser['id']) {
             header('HTTP/1.1 403 Forbidden');
             echo 'You cannot edit this question.';
             exit;
@@ -42,7 +42,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 if ($file['size'] <= 3 * 1024 * 1024) {
                     $ext = pathinfo($file['name'], PATHINFO_EXTENSION);
                     $imageFileName = uniqid('qimg_', true) . '.' . $ext;
-                    $destination = __DIR__ . '/../images/' . $imageFileName;
+                    $destination = __DIR__ . '/images/questions/' . $imageFileName;
                     move_uploaded_file($file['tmp_name'], $destination);
                 } else {
                     throw new Exception('Image is too large (max 3MB).');
@@ -57,7 +57,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         updateQuestion($pdo, $id, $_POST['questiontext'], $_POST['moduleid'] ?: null, $imageFileName);
-        header('Location: ../question.php?id=' . $id);
+        header('Location: question.php?id=' . $id);
         exit;
     } catch (Exception $e) {
         $error = $e->getMessage();
@@ -66,12 +66,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $currentUser = getCurrentUser();
     $question = getQuestion($pdo, $_GET['id']);
     if (!$question) {
-        header('Location: ../index.php');
+        header('Location: index.php');
         exit;
     }
     
-    // Check ownership
-    if ($question['userid'] != $currentUser['id'] && !isAdmin()) {
+    // Check ownership - only owner can edit
+    if ($question['userid'] != $currentUser['id']) {
         header('HTTP/1.1 403 Forbidden');
         echo 'You cannot edit this question.';
         exit;
@@ -80,7 +80,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 $title = 'Edit Question';
 ob_start();
-include __DIR__ . '/../templates/question_form.php';
+include 'templates/question_form.php';
 $output = ob_get_clean();
-include __DIR__ . '/../templates/layout.php';
+include 'templates/layout.php';
 ?>

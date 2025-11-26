@@ -1,11 +1,11 @@
 <?php
-require __DIR__ . '/../includes/DatabaseConnection.php';
-require __DIR__ . '/../includes/DataBaseFunctions.php';
+require 'includes/DatabaseConnection.php';
+require 'includes/DataBaseFunctions.php';
 
 startUserSession();
 
 if (!isLoggedIn()) {
-    header('Location: ../login.php');
+    header('Location: login.php');
     exit;
 }
 
@@ -14,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id'])) {
     $question = getQuestion($pdo, $id);
     
     if (!$question) {
-        header('Location: ../index.php');
+        header('Location: index.php');
         exit;
     }
     
@@ -29,6 +29,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id'])) {
     
     deleteQuestion($pdo, $id);
 }
-header('Location: ../index.php');
+header('Location: index.php');
 exit;
 ?>
