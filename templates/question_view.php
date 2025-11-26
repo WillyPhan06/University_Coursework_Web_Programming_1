@@ -22,7 +22,7 @@
     
     <?php if (!empty($question['img'])): ?>
         <div style="margin:15px 0;">
-            <img src="images/<?=htmlspecialchars($question['img'])?>" style="max-width:400px;" alt="">
+            <img src="images/questions/<?=htmlspecialchars($question['img'])?>" style="max-width:400px;" alt="">
         </div>
     <?php endif; ?>
     

@@ -23,7 +23,7 @@
             <div style="flex-grow:1;">
                 <?php if (!empty($q['img'])): ?>
                     <div style="float:right; max-width:160px; margin-left:10px;">
-                        <img src="images/<?=htmlspecialchars($q['img'])?>" style="max-width:100%;" alt="">
+                        <img src="images/questions/<?=htmlspecialchars($q['img'])?>" style="max-width:100%;" alt="">
                     </div>
                 <?php endif; ?>
                 <h3><a href="question.php?id=<?=htmlspecialchars($q['id'])?>"><?=htmlspecialchars(substr($q['questiontext'],0,120))?></a></h3>
