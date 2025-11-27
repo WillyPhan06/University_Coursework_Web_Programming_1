@@ -24,7 +24,7 @@ $isOwnProfile = ($currentUser && $currentUser['id'] == $user['id']);
 $successMessage = '';
 $errorMessage = '';
 
-// Handle avatar actions (only for own profile)
+// Handle avatar actions and account deletion (only for own profile)
 if ($isOwnProfile && $_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
         try {
@@ -79,6 +79,26 @@ if ($isOwnProfile && $_SERVER['REQUEST_METHOD'] === 'POST') {
                         // Refresh user data and session
                         $user = getUserByUsername($pdo, $username);
                         $_SESSION['user']['avatar'] = null;
+                    }
+                    break;
+                
+                case 'delete_account':
+                    $password = $_POST['password'] ?? '';
+                    
+                    if (empty($password)) {
+                        $errorMessage = 'Password is required to delete your account.';
+                    } elseif (!verifyUserPassword($pdo, $user['id'], $password)) {
+                        $errorMessage = 'Incorrect password. Account deletion cancelled.';
+                    } else {
+                        // Password verified, proceed with account deletion
+                        deleteUser($pdo, $user['id']);
+                        
+                        // Log out the user
+                        logoutUser();
+                        
+                        // Redirect to homepage with message
+                        header('Location: index.php?deleted=1');
+                        exit;
                     }
                     break;
             }

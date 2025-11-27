@@ -76,7 +76,45 @@ function getAllUsers($pdo) {
 }
 
 function deleteUser($pdo, $id) {
+    // First delete all comments by this user
+    query($pdo, 'DELETE FROM comment WHERE userid = :id', [':id' => $id]);
+    
+    // Get all questions by this user to delete their images
+    $questions = query($pdo, 'SELECT img FROM question WHERE userid = :id', [':id' => $id])->fetchAll();
+    foreach ($questions as $q) {
+        if (!empty($q['img'])) {
+            $imgPath = __DIR__ . '/../images/questions/' . $q['img'];
+            if (file_exists($imgPath)) {
+                unlink($imgPath);
+            }
+        }
+    }
+    
+    // Delete all questions by this user (comments on these questions will also be deleted via CASCADE)
+    query($pdo, 'DELETE FROM question WHERE userid = :id', [':id' => $id]);
+    
+    // Get user's avatar to delete
+    $user = getUserById($pdo, $id);
+    if ($user && !empty($user['avatar'])) {
+        $avatarPath = __DIR__ . '/../images/avatars/' . $user['avatar'];
+        if (file_exists($avatarPath)) {
+            unlink($avatarPath);
+        }
+    }
+    
+    // Finally delete the user
     query($pdo, 'DELETE FROM `user` WHERE id = :id', [':id' => $id]);
+}
+
+function verifyUserPassword($pdo, $userid, $password) {
+    $sql = "SELECT password FROM `user` WHERE id = :id";
+    $stmt = query($pdo, $sql, [':id' => $userid]);
+    $user = $stmt->fetch();
+    
+    if ($user && password_verify($password, $user['password'])) {
+        return true;
+    }
+    return false;
 }
 
 function updateUserRole($pdo, $id, $role) {

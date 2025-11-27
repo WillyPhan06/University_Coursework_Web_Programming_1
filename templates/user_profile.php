@@ -80,4 +80,185 @@
             </div>
         <?php endif; ?>
     </div>
+    
+    <?php if ($isOwnProfile): ?>
+    <!-- Delete Account Section -->
+    <div class="profile-content" style="border-top: 2px solid #e0e0e0; padding-top: 30px;">
+        <h3 style="color: #dc3545;">Danger Zone</h3>
+        <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 20px;">
+            <h4 style="color: #856404; margin-top: 0;">Delete Your Account</h4>
+            <p style="color: #856404; margin-bottom: 15px;">
+                <strong>Warning:</strong> This action cannot be undone. Deleting your account will permanently remove:
+            </p>
+            <ul style="color: #856404; margin-bottom: 15px;">
+                <li>Your profile and personal information</li>
+                <li>All your questions and posts</li>
+                <li>All your comments</li>
+                <li>Your avatar and uploaded images</li>
+            </ul>
+            
+            <details style="margin-bottom: 15px;">
+                <summary style="cursor: pointer; color: #dc3545; font-weight: bold; margin-bottom: 10px;">
+                    I understand the consequences, show me the delete option
+                </summary>
+                
+                <form method="post" action="" style="margin-top: 15px; padding: 15px; background: #f8d7da; border-radius: 6px; border: 1px solid #dc3545;">
+                    <input type="hidden" name="action" value="delete_account">
+                    
+                    <div class="form-group">
+                        <label for="delete_password" style="color: #721c24;">
+                            Enter your password to confirm account deletion:
+                        </label>
+                        <input type="password" 
+                               id="delete_password" 
+                               name="password" 
+                               required 
+                               minlength="6"
+                               placeholder="Your current password"
+                               style="border-color: #dc3545;">
+                    </div>
+                    
+                    <button type="submit" 
+                            class="btn btn-danger"
+                            onclick="return confirm('Are you ABSOLUTELY sure you want to delete your account? This action cannot be undone and all your data will be permanently lost!');">
+                        Delete My Account Permanently
+                    </button>
+                </form>
+            </details>
+        </div>
+    </div>
+    <?php endif; ?>
 </div>
+
+<style>
+    .user-profile {
+        max-width: 800px;
+        margin: 20px auto;
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: flex-start;
+        gap: 30px;
+        padding: 20px;
+        background: #f9f9f9;
+        border-radius: 4px;
+        margin-bottom: 30px;
+    }
+
+    .avatar-section {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .avatar-actions {
+        text-align: center;
+    }
+
+    .profile-avatar {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        object-fit: cover;
+        border: 3px solid #4a90e2;
+    }
+
+    .profile-avatar-placeholder {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        background: #ddd;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #999;
+        border: 3px solid #ccc;
+    }
+
+    .profile-info {
+        flex: 1;
+    }
+
+    .profile-info h2 {
+        margin-top: 0;
+        margin-bottom: 15px;
+    }
+
+    .profile-info p {
+        margin: 8px 0;
+        line-height: 1.5;
+    }
+
+    .profile-content {
+        margin-bottom: 30px;
+    }
+
+    .profile-content h3 {
+        border-bottom: 2px solid #4a90e2;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+
+    .questions-list, .comments-list {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    .question-card, .comment-card {
+        padding: 15px;
+        background: white;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    }
+
+    .question-card h4 {
+        margin: 0 0 10px 0;
+    }
+
+    .question-card h4 a {
+        color: #4a90e2;
+        text-decoration: none;
+    }
+
+    .question-card h4 a:hover {
+        text-decoration: underline;
+    }
+
+    .comment-card p:first-child {
+        margin: 0 0 10px 0;
+        color: #333;
+    }
+
+    .comment-card small {
+        color: #666;
+    }
+
+    .alert {
+        padding: 12px;
+        margin-bottom: 15px;
+        border-radius: 4px;
+    }
+
+    .alert-success {
+        background: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+    }
+
+    .alert-error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 1px solid #f5c6cb;
+    }
+
+    @media (max-width: 600px) {
+        .profile-header {
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+        }
+    }
+</style>
