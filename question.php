@@ -19,8 +19,20 @@ if (!$question) {
 $comments = getCommentsByQuestion($pdo, $_GET['id']);
 $currentUser = getCurrentUser();
 
+// Check for success message
+$successMessage = '';
+if (isset($_GET['success']) && $_GET['success'] === 'question_updated') {
+    $successMessage = 'Question updated successfully!';
+}
+
 $title = 'View Question';
 ob_start();
+
+// Show success message if any
+if (!empty($successMessage)) {
+    echo '<div class="alert alert-success">' . htmlspecialchars($successMessage) . '</div>';
+}
+
 include 'templates/question_view.php';
 $output = ob_get_clean();
 include 'templates/layout.php';

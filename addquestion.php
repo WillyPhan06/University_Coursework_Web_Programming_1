@@ -34,7 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $moduleid = !empty($_POST['moduleid']) ? $_POST['moduleid'] : null;
         $userid = getCurrentUser()['id'];
         insertQuestion($pdo, $_POST['questiontext'], $userid, $moduleid, $imageFileName);
-        header('Location: index.php');
+        
+        // Redirect with success message
+        header('Location: index.php?success=question_added');
         exit;
     } catch (Exception $e) {
         $error = $e->getMessage();

@@ -18,6 +18,9 @@
         </p>
     <?php else: ?>
         <form method="post" action="">
+            <!-- Honeypot field (anti-bot) -->
+            <input type="text" name="website" autocomplete="off" tabindex="-1" style="display:none">
+
             <div class="form-group">
                 <label for="name">Name: <span class="text-danger">*</span></label>
                 <input type="text" id="name" name="name" required minlength="2" maxlength="100"

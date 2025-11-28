@@ -28,7 +28,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && !empty($_POST['id'])) {
     }
     
     deleteQuestion($pdo, $id);
+    
+    // Redirect with success message
+    header('Location: index.php?success=question_deleted');
+    exit;
 }
+
 header('Location: index.php');
 exit;
 ?>

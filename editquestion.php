@@ -57,7 +57,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         updateQuestion($pdo, $id, $_POST['questiontext'], $_POST['moduleid'] ?: null, $imageFileName);
-        header('Location: question.php?id=' . $id);
+        
+        // Redirect with success message
+        header('Location: question.php?id=' . $id . '&success=question_updated');
         exit;
     } catch (Exception $e) {
         $error = $e->getMessage();

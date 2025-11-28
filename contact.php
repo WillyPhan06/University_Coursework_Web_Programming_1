@@ -9,7 +9,7 @@ use PHPMailer\PHPMailer\Exception;
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-// Database includes (if needed for your project)
+// Database includes
 require 'includes/DatabaseConnection.php';
 require 'includes/DataBaseFunctions.php';
 
@@ -24,26 +24,29 @@ $SMTP_HOST     = $_ENV['SMTP_HOST'] ?? 'smtp.gmail.com';
 $SMTP_PORT     = intval($_ENV['SMTP_PORT'] ?? 587);
 $SMTP_SECURE   = strtoupper($_ENV['SMTP_SECURE'] ?? 'STARTTLS');
 
-// Map string to PHPMailer constant
+// Map to PHPMailer constant
 switch ($SMTP_SECURE) {
-    case 'STARTTLS':
-        $SMTP_SECURE = PHPMailer::ENCRYPTION_STARTTLS;
-        break;
-    case 'SMTPS':
-        $SMTP_SECURE = PHPMailer::ENCRYPTION_SMTPS;
-        break;
-    default:
-        $SMTP_SECURE = '';
+    case 'STARTTLS': $SMTP_SECURE = PHPMailer::ENCRYPTION_STARTTLS; break;
+    case 'SMTPS':    $SMTP_SECURE = PHPMailer::ENCRYPTION_SMTPS;   break;
+    default:         $SMTP_SECURE = '';
 }
 
 $error = '';
 $success = false;
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     $name    = trim($_POST['name'] ?? '');
     $email   = trim($_POST['email'] ?? '');
     $subject = trim($_POST['subject'] ?? '');
     $message = trim($_POST['message'] ?? '');
+
+    // Honeypot field
+    $honeypot = $_POST['website'] ?? '';
+    if (!empty($honeypot)) {
+        $success = true;
+        return;
+    }
 
     // === Validation ===
     if (empty($name) || empty($email) || empty($subject) || empty($message)) {
@@ -57,6 +60,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     } elseif (strlen($message) < 10 || strlen($message) > 5000) {
         $error = 'Message must be between 10 and 5000 characters.';
     } else {
+
         // === Sending email ===
         try {
             if ($SMTP_ENABLED) {
@@ -69,13 +73,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mail->SMTPSecure = $SMTP_SECURE;
                 $mail->Port       = $SMTP_PORT;
 
-                // Sender = side Gmail
                 $mail->setFrom($SMTP_USERNAME, 'Website Contact Form');
-
-                // Recipient = admin (main Gmail)
                 $mail->addAddress($ADMIN_EMAIL);
-
-                // Reply-To = user email
                 $mail->addReplyTo($email, $name);
 
                 $mail->isHTML(false);
@@ -86,13 +85,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $success = true;
 
             } else {
-                // Fallback to PHP mail() if SMTP disabled
+                // PHP mail() fallback
                 $headers = "From: noreply@" . $_SERVER['HTTP_HOST'] . "\r\n";
                 $headers .= "Reply-To: " . filter_var($email, FILTER_SANITIZE_EMAIL) . "\r\n";
                 $headers .= "Content-Type: text/plain; charset=UTF-8\r\n";
                 $headers .= "X-Mailer: PHP/" . phpversion();
 
-                $mailBody = "Contact Form Submission\n";
+                $mailBody  = "Contact Form Submission\n";
                 $mailBody .= "========================\n\n";
                 $mailBody .= "Name: $name\n";
                 $mailBody .= "Email: $email\n";
@@ -103,7 +102,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $mailBody .= "IP Address: " . $_SERVER['REMOTE_ADDR'] . "\n";
                 $mailBody .= "Date: " . date('Y-m-d H:i:s') . "\n";
 
-                if (mail($ADMIN_EMAIL, "Contact Form: " . $subject, $mailBody, $headers)) {
+                if (mail($ADMIN_EMAIL, "Contact Form: $subject", $mailBody, $headers)) {
                     $success = true;
                 } else {
                     $error = 'Failed to send email. Please contact the administrator directly.';
