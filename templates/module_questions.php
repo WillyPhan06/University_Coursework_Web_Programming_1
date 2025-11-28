@@ -1,7 +1,19 @@
-<h2>Questions</h2>
+<div class="module-header">
+    <h2>Module: <?=htmlspecialchars($module['name'])?></h2>
+    <p class="module-description">Showing all questions for this module</p>
+    <p><a href="index.php" class="btn btn-secondary">← Back to All Questions</a></p>
+</div>
+
 <?php if (empty($questions)): ?>
-    <p>No questions yet.</p>
+    <div class="no-questions-message">
+        <p>No questions have been posted for this module yet.</p>
+        <?php if (isLoggedIn()): ?>
+            <p><a href="addquestion.php" class="btn btn-primary">Be the first to ask a question!</a></p>
+        <?php endif; ?>
+    </div>
 <?php else: ?>
+    <p class="question-count"><?=count($questions)?> question<?=count($questions) != 1 ? 's' : ''?> found</p>
+    
     <?php foreach ($questions as $q): ?>
         <article style="border-bottom:1px solid #ddd; padding:10px 0; display:flex; gap:15px;">
             <!-- User Avatar -->
@@ -27,18 +39,7 @@
                     </div>
                 <?php endif; ?>
                 <h3><a href="question.php?id=<?=htmlspecialchars($q['id'])?>"><?=htmlspecialchars(substr($q['questiontext'],0,120))?></a></h3>
-                <p>
-                    <strong>Module:</strong> 
-                    <?php if (!empty($q['modulename']) && !empty($q['moduleid'])): ?>
-                        <a href="module.php?id=<?=htmlspecialchars($q['moduleid'])?>" class="module-link">
-                            <?=htmlspecialchars($q['modulename'])?>
-                        </a>
-                    <?php else: ?>
-                        <span class="unassigned-module">Unassigned</span>
-                    <?php endif; ?>
-                    &nbsp; 
-                    <strong>By:</strong> <a href="profile.php?username=<?=htmlspecialchars($q['username'])?>" style="text-decoration:none; color:#4a90e2;"><?=htmlspecialchars($q['name'] ?? 'Unknown')?></a>
-                </p>
+                <p><strong>By:</strong> <a href="profile.php?username=<?=htmlspecialchars($q['username'])?>" style="text-decoration:none; color:#4a90e2;"><?=htmlspecialchars($q['name'] ?? 'Unknown')?></a></p>
                 <p><small>Posted on <?=htmlspecialchars($q['date'])?></small></p>
                 <p>
                         <?php 

@@ -847,3 +847,73 @@ select:focus {
     margin-top: 10px;
     font-size: 0.9em;
 }
+
+/* Add these styles to the end of your styles.css file */
+
+/* === MODULE PAGE === */
+.module-header {
+    margin-bottom: 30px;
+    padding: 20px;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+    border-radius: 12px;
+    border: 1px solid #e0e0e0;
+}
+
+.module-header h2 {
+    margin-bottom: 10px;
+    border-bottom: none;
+}
+
+.module-description {
+    color: #666;
+    margin-bottom: 15px;
+    font-size: 1.1em;
+}
+
+.no-questions-message {
+    text-align: center;
+    padding: 40px 20px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.no-questions-message p {
+    margin: 15px 0;
+    font-size: 1.1em;
+    color: #666;
+}
+
+.question-count {
+    margin-bottom: 20px;
+    color: #666;
+    font-weight: 600;
+    padding: 10px 15px;
+    background: #f0f8ff;
+    border-left: 4px solid #667eea;
+    border-radius: 4px;
+}
+
+/* === MODULE LINKS === */
+.module-link {
+    display: inline-block;
+    padding: 2px 10px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white !important;
+    text-decoration: none;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 0.9em;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.module-link:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+    text-decoration: none;
+}
+
+.unassigned-module {
+    color: #999;
+    font-style: italic;
+}

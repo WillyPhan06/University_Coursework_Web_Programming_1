@@ -304,4 +304,18 @@ function deleteModule($pdo, $id) {
     query($pdo, 'DELETE FROM module WHERE id = :id', [':id' => $id]);
 }
 
+// Add this function to your includes/DataBaseFunctions.php file
+// Place it near the other question functions (around line 170-200)
+
+function getQuestionsByModule($pdo, $moduleid) {
+    $sql = "SELECT q.id, q.text AS questiontext, q.date, q.img, q.userid, q.moduleid,
+                   m.name AS modulename, u.name AS name, u.username AS username, u.avatar
+            FROM question q
+            LEFT JOIN module m ON q.moduleid = m.id
+            LEFT JOIN `user` u ON q.userid = u.id
+            WHERE q.moduleid = :moduleid
+            ORDER BY q.date DESC";
+    return query($pdo, $sql, [':moduleid' => $moduleid])->fetchAll();
+}
+
 ?>
