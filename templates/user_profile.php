@@ -17,31 +17,46 @@
             
             <?php if ($isOwnProfile): ?>
                 <div class="avatar-actions">
-                    <form method="post" action="" enctype="multipart/form-data" style="margin-top:10px;">
+                    <form method="post" action="" enctype="multipart/form-data" class="avatar-upload-form">
                         <input type="hidden" name="action" value="upload_avatar">
-                        <input type="file" name="avatar" id="avatar" accept="image/*" style="display:none;" onchange="this.form.submit()">
-                        <label for="avatar" style="padding:6px 12px; background:#5cb85c; color:white; border-radius:3px; cursor:pointer; display:inline-block; font-size:0.9em;">
+                        <input type="file" name="avatar" id="avatar" accept="image/*" class="avatar-input" onchange="this.form.submit()">
+                        <label for="avatar" class="avatar-label">
                             <?=!empty($user['avatar']) ? 'Change Avatar' : 'Upload Avatar'?>
                         </label>
                     </form>
                     
                     <?php if (!empty($user['avatar'])): ?>
-                        <form method="post" action="" style="margin-top:5px;">
+                        <form method="post" action="" class="avatar-delete-form">
                             <input type="hidden" name="action" value="delete_avatar">
-                            <button type="submit" onclick="return confirm('Delete your avatar?');" style="padding:6px 12px; background:#d9534f; color:white; border:none; border-radius:3px; cursor:pointer; font-size:0.9em;">
+                            <button type="submit" onclick="return confirm('Delete your avatar?');" class="btn-delete-avatar">
                                 Delete Avatar
                             </button>
                         </form>
                     <?php endif; ?>
-                    <p style="margin-top:5px; font-size:0.85em; color:#666;">Max 2MB (JPG, PNG, GIF)</p>
+                    <p class="avatar-note">Max 2MB (JPG, PNG, GIF)</p>
                 </div>
             <?php endif; ?>
         </div>
         
         <div class="profile-info">
             <h2><?=htmlspecialchars($user['name'])?></h2>
-            <p><strong>Username:</strong> <?=htmlspecialchars($user['username'])?></p>
-            <p><strong>Email:</strong> <?=htmlspecialchars($user['email'])?></p>
+            
+            <?php if ($isOwnProfile): ?>
+                <div class="edit-name-section">
+                    <form method="post" action="" class="edit-name-form">
+                        <input type="hidden" name="action" value="update_name">
+                        <div class="form-group-inline">
+                            <label for="name">Edit Name:</label>
+                            <input type="text" id="name" name="name" value="<?=htmlspecialchars($user['name'])?>" 
+                                   required minlength="2" maxlength="100" class="name-input">
+                            <button type="submit" class="btn-update-name">Update</button>
+                        </div>
+                    </form>
+                </div>
+            <?php endif; ?>
+            
+            <p><strong>Username:</strong> <?=htmlspecialchars($user['username'])?> <span class="info-note">(cannot be changed)</span></p>
+            <p><strong>Email:</strong> <?=htmlspecialchars($user['email'])?> <span class="info-note">(cannot be changed)</span></p>
             <p><strong>Joined:</strong> <?=htmlspecialchars(date('M d, Y', strtotime($user['created_at'])))?></p>
             <p><strong>Role:</strong> <?=htmlspecialchars($user['role'] === 'admin' ? 'Administrator' : 'User')?></p>
         </div>
@@ -83,30 +98,30 @@
     
     <?php if ($isOwnProfile): ?>
     <!-- Delete Account Section -->
-    <div class="profile-content" style="border-top: 2px solid #e0e0e0; padding-top: 30px;">
-        <h3 style="color: #dc3545;">Danger Zone</h3>
-        <div style="background: #fff3cd; border: 1px solid #ffc107; border-radius: 8px; padding: 20px;">
-            <h4 style="color: #856404; margin-top: 0;">Delete Your Account</h4>
-            <p style="color: #856404; margin-bottom: 15px;">
+    <div class="profile-content danger-zone">
+        <h3 class="danger-title">Danger Zone</h3>
+        <div class="danger-container">
+            <h4 class="danger-heading">Delete Your Account</h4>
+            <p class="danger-text">
                 <strong>Warning:</strong> This action cannot be undone. Deleting your account will permanently remove:
             </p>
-            <ul style="color: #856404; margin-bottom: 15px;">
+            <ul class="danger-list">
                 <li>Your profile and personal information</li>
                 <li>All your questions and posts</li>
                 <li>All your comments</li>
                 <li>Your avatar and uploaded images</li>
             </ul>
             
-            <details style="margin-bottom: 15px;">
-                <summary style="cursor: pointer; color: #dc3545; font-weight: bold; margin-bottom: 10px;">
+            <details class="danger-details">
+                <summary class="danger-summary">
                     I understand the consequences, show me the delete option
                 </summary>
                 
-                <form method="post" action="" style="margin-top: 15px; padding: 15px; background: #f8d7da; border-radius: 6px; border: 1px solid #dc3545;">
+                <form method="post" action="" class="danger-form">
                     <input type="hidden" name="action" value="delete_account">
                     
                     <div class="form-group">
-                        <label for="delete_password" style="color: #721c24;">
+                        <label for="delete_password" class="danger-label">
                             Enter your password to confirm account deletion:
                         </label>
                         <input type="password" 
@@ -115,7 +130,7 @@
                                required 
                                minlength="6"
                                placeholder="Your current password"
-                               style="border-color: #dc3545;">
+                               class="danger-input">
                     </div>
                     
                     <button type="submit" 
@@ -131,91 +146,10 @@
 </div>
 
 <style>
-    .user-profile {
-        max-width: 800px;
-        margin: 20px auto;
-    }
-
-    .profile-header {
-        display: flex;
-        align-items: flex-start;
-        gap: 30px;
-        padding: 20px;
-        background: #f9f9f9;
-        border-radius: 4px;
-        margin-bottom: 30px;
-    }
-
-    .avatar-section {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .avatar-actions {
-        text-align: center;
-    }
-
-    .profile-avatar {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        object-fit: cover;
-        border: 3px solid #4a90e2;
-    }
-
-    .profile-avatar-placeholder {
-        width: 150px;
-        height: 150px;
-        border-radius: 50%;
-        background: #ddd;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: #999;
-        border: 3px solid #ccc;
-    }
-
-    .profile-info {
-        flex: 1;
-    }
-
-    .profile-info h2 {
-        margin-top: 0;
-        margin-bottom: 15px;
-    }
-
-    .profile-info p {
-        margin: 8px 0;
-        line-height: 1.5;
-    }
-
-    .profile-content {
-        margin-bottom: 30px;
-    }
-
     .profile-content h3 {
         border-bottom: 2px solid #4a90e2;
         padding-bottom: 10px;
         margin-bottom: 15px;
-    }
-
-    .questions-list, .comments-list {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
-
-    .question-card, .comment-card {
-        padding: 15px;
-        background: white;
-        border: 1px solid #ddd;
-        border-radius: 4px;
-        box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-    }
-
-    .question-card h4 {
-        margin: 0 0 10px 0;
     }
 
     .question-card h4 a {
@@ -227,38 +161,4 @@
         text-decoration: underline;
     }
 
-    .comment-card p:first-child {
-        margin: 0 0 10px 0;
-        color: #333;
-    }
-
-    .comment-card small {
-        color: #666;
-    }
-
-    .alert {
-        padding: 12px;
-        margin-bottom: 15px;
-        border-radius: 4px;
-    }
-
-    .alert-success {
-        background: #d4edda;
-        color: #155724;
-        border: 1px solid #c3e6cb;
-    }
-
-    .alert-error {
-        background: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
-    }
-
-    @media (max-width: 600px) {
-        .profile-header {
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-        }
-    }
 </style>

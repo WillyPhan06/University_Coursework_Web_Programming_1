@@ -138,6 +138,12 @@ function deleteUserAvatar($pdo, $id) {
     query($pdo, $sql, [':id' => $id]);
 }
 
+// NEW: Update user name
+function updateUserName($pdo, $id, $name) {
+    $sql = "UPDATE `user` SET name = :name WHERE id = :id";
+    query($pdo, $sql, [':name' => $name, ':id' => $id]);
+}
+
 // Question functions
 function query($pdo, $sql, $params = []) {
     $stmt = $pdo->prepare($sql);
@@ -263,13 +269,33 @@ function getModule($pdo, $id) {
     return query($pdo, $sql, [':id' => $id])->fetch();
 }
 
+// NEW: Check if module name exists (case-insensitive)
+function moduleNameExists($pdo, $name, $excludeId = null) {
+    if ($excludeId) {
+        $sql = "SELECT COUNT(*) as count FROM module WHERE LOWER(name) = LOWER(:name) AND id != :id";
+        $result = query($pdo, $sql, [':name' => $name, ':id' => $excludeId])->fetch();
+    } else {
+        $sql = "SELECT COUNT(*) as count FROM module WHERE LOWER(name) = LOWER(:name)";
+        $result = query($pdo, $sql, [':name' => $name])->fetch();
+    }
+    return $result['count'] > 0;
+}
+
 function insertModule($pdo, $name) {
+    // Check for duplicate
+    if (moduleNameExists($pdo, $name)) {
+        throw new Exception('Module name already exists.');
+    }
     $sql = "INSERT INTO module (name) VALUES (:name)";
     query($pdo, $sql, [':name' => $name]);
     return $pdo->lastInsertId();
 }
 
 function updateModule($pdo, $id, $name) {
+    // Check for duplicate (excluding current module)
+    if (moduleNameExists($pdo, $name, $id)) {
+        throw new Exception('Module name already exists.');
+    }
     $sql = "UPDATE module SET name = :name WHERE id = :id";
     query($pdo, $sql, [':name' => $name, ':id' => $id]);
 }

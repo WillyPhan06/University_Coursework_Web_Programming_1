@@ -344,6 +344,54 @@ article:last-child {
     font-weight: 600;
 }
 
+.avatar-upload-form {
+    margin-top: 10px;
+}
+
+.avatar-input {
+    display: none;
+}
+
+.avatar-label {
+    padding: 6px 12px;
+    background: #5cb85c;
+    color: white;
+    border-radius: 3px;
+    cursor: pointer;
+    display: inline-block;
+    font-size: 0.9em;
+    transition: background 0.3s ease;
+}
+
+.avatar-label:hover {
+    background: #4cae4c;
+}
+
+.avatar-delete-form {
+    margin-top: 5px;
+}
+
+.btn-delete-avatar {
+    padding: 6px 12px;
+    background: #d9534f;
+    color: white;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+    font-size: 0.9em;
+    transition: background 0.3s ease;
+}
+
+.btn-delete-avatar:hover {
+    background: #c9302c;
+}
+
+.avatar-note {
+    margin-top: 5px;
+    font-size: 0.85em;
+    color: #666;
+}
+
 .profile-info {
     flex: 1;
 }
@@ -357,6 +405,61 @@ article:last-child {
 .profile-info p {
     margin: 10px 0;
     line-height: 1.8;
+}
+
+.info-note {
+    color: #999;
+    font-size: 0.9em;
+    font-style: italic;
+}
+
+.edit-name-section {
+    margin: 15px 0;
+    padding: 15px;
+    background: rgba(102, 126, 234, 0.05);
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+}
+
+.edit-name-form {
+    margin: 0;
+}
+
+.form-group-inline {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.form-group-inline label {
+    margin: 0;
+    font-weight: bold;
+}
+
+.name-input {
+    flex: 1;
+    min-width: 200px;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+.btn-update-name {
+    padding: 8px 16px;
+    background: #5cb85c;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
+}
+
+.btn-update-name:hover {
+    background: #4cae4c;
 }
 
 .profile-content {
@@ -397,6 +500,66 @@ article:last-child {
 
 .comment-card small {
     color: #666;
+}
+
+/* === PROFILE DANGER ZONE === */
+.danger-zone {
+    border-top: 2px solid #e0e0e0;
+    padding-top: 30px;
+}
+
+.danger-title {
+    color: #dc3545;
+}
+
+.danger-container {
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 8px;
+    padding: 20px;
+}
+
+.danger-heading {
+    color: #856404;
+    margin-top: 0;
+}
+
+.danger-text {
+    color: #856404;
+    margin-bottom: 15px;
+}
+
+.danger-list {
+    color: #856404;
+    margin-bottom: 15px;
+    padding-left: 20px;
+}
+
+.danger-details {
+    margin-bottom: 15px;
+}
+
+.danger-summary {
+    cursor: pointer;
+    color: #dc3545;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.danger-form {
+    margin-top: 15px;
+    padding: 15px;
+    background: #f8d7da;
+    border-radius: 6px;
+    border: 1px solid #dc3545;
+}
+
+.danger-label {
+    color: #721c24;
+}
+
+.danger-input {
+    border-color: #dc3545;
 }
 
 /* === ADMIN PANEL === */
@@ -579,6 +742,15 @@ article:last-child {
 
     .form-actions .btn {
         width: 100%;
+    }
+
+    .form-group-inline {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .name-input {
+        min-width: 100%;
     }
 }
 

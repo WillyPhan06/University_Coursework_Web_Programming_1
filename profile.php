@@ -24,11 +24,32 @@ $isOwnProfile = ($currentUser && $currentUser['id'] == $user['id']);
 $successMessage = '';
 $errorMessage = '';
 
-// Handle avatar actions and account deletion (only for own profile)
+// Handle all profile actions (only for own profile)
 if ($isOwnProfile && $_SERVER['REQUEST_METHOD'] === 'POST') {
     if (isset($_POST['action'])) {
         try {
             switch ($_POST['action']) {
+                case 'update_name':
+                    if (!empty($_POST['name'])) {
+                        $newName = trim($_POST['name']);
+                        
+                        // Validation
+                        if (strlen($newName) < 2) {
+                            throw new Exception('Name must be at least 2 characters.');
+                        }
+                        if (strlen($newName) > 100) {
+                            throw new Exception('Name must not exceed 100 characters.');
+                        }
+                        
+                        updateUserName($pdo, $user['id'], $newName);
+                        $successMessage = 'Name updated successfully!';
+                        
+                        // Refresh user data and session
+                        $user = getUserByUsername($pdo, $username);
+                        $_SESSION['user']['name'] = $newName;
+                    }
+                    break;
+                
                 case 'upload_avatar':
                     if (!empty($_FILES['avatar']) && $_FILES['avatar']['error'] !== UPLOAD_ERR_NO_FILE) {
                         $file = $_FILES['avatar'];
