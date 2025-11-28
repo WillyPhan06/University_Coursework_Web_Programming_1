@@ -1,135 +1,223 @@
-COMP1841 Coursework Summary (Condensed but Detailed)
+# **COMP1841 Coursework Summary (Complete + Fully Aligned with Coursework PDF)**
 
-Overview
+## **Overview**
 
-You must build a PHP PDO + MySQL CRUD web system deployed on either: -
-CMS student web server (I-Drive), or
-- Localhost (XAMPP).
+You must develop an individual PHP + MySQL CRUD website.
+You must use **PHP PDO only** (no MySQLi).
+Using MySQLi results in a **40% cap**.
 
-MySQLi is forbidden → using it caps your mark at 40%.
+The system is a simple student Q&A website similar to a small “StackOverflow”:
 
-The system is a mini student Q&A platform (similar to a simple
-StackOverflow).
-Your job: implement the functional requirements + produce a 2000‑word
-report.
+* Public list of posts/questions
+* Students can create, edit, delete posts
+* Manage users
+* Manage module names
+* Assign posts to authors and modules
+* Optional extra features for higher marks
+* System deployed on:
 
-------------------------------------------------------------------------
+  * CMS student web server (I-Drive), or
+  * Localhost via XAMPP
 
-Functional Requirements (Core)
+You must also produce a **2000-word report (±10%)** and a **ZIP file** containing the entire website + database.
 
-Public Website
+---
 
--   Display a list of questions/posts.
--   Students can add, edit, delete questions.
--   Each post may include an image/screenshot.
--   Manage authors/users (username, email, etc.).
--   Manage module names (add/edit/delete).
--   Posts must be assignable to:
-    -   an author, and
-    -   a module name (using dropdowns).
--   Provide a contact form that sends an email to the site admin.
+# **Functional Requirements (Core – Must Be Completed to Avoid 40% Cap)**
 
-------------------------------------------------------------------------
+### **Public-Facing Website**
 
-Technical Requirements
+* Display list of questions/posts.
+* Add a post.
+* Edit a post.
+* Delete a post.
+* Display an image/screenshot per post (using the method taught in class).
+* Manage authors/users (add, edit, delete).
+* Manage module names (add, edit, delete).
+* Assign a post to:
 
--   Must use PHP PDO for all DB interactions.
--   Must use a relational database with more than one table.
--   Must demonstrate referential integrity (e.g., foreign keys).
--   Include proper frontend design, consistent across pages.
--   You may use Bootstrap or CSS frameworks.
--   Must include HTML5/JS validation where appropriate.
--   Include basic accessibility considerations (WCAG / W3Schools
-    accessibility).
--   You may add extra features for higher marks (login system, admin
-    panel, password hashing, validation, etc.).
+  * an author (user),
+  * a module name (via dropdowns).
+* Contact form to send an email to the system administrator.
 
-------------------------------------------------------------------------
+---
 
-Legal / Ethical Requirements
+# **Technical Requirements**
 
-You must show understanding of: - Accessibility (WCAG, ARIA, etc.). -
-GDPR and personal data handling. - Legal, social, ethical
-responsibilities of storing student data. - How GDPR may differ
-post‑Brexit. - Must be specific to your system, not generic essays. -
-This section must be fully referenced (Harvard).
-→ No references = automatic zero for this section.
+* Must use **PHP PDO** for *all* database operations.
+* Must use a relational database with **more than one table**.
+* Must demonstrate **referential integrity** (foreign key relationships).
+* Must create tables for at minimum:
 
-------------------------------------------------------------------------
+  * `posts`
+  * `users`
+  * `modules`
+* Must include HTML5 or JavaScript validations where appropriate.
+* Must implement **basic accessibility** (WCAG / W3C / W3Schools guidelines).
+* The front-end must be **clear, consistent, and easy to navigate** across all pages.
+* CSS frameworks like Bootstrap are allowed.
+* Must enter enough test data to demonstrate functionality.
+* All external code, tutorials, and **AI-assisted code must be fully referenced**.
+* Do NOT implement anything you do not understand.
 
-Deliverables
+---
 
-1. Report (2000 words ±10%) (30%)
+# **Legal, Ethical, and Accessibility Requirements (Mandatory)**
 
-Must include: - Title page (URL + any passwords + word count) - Table of
-contents - Introduction - Page designs / wireframes + navigation
-diagram + ERD - Discussion of technologies (HTML, CSS, JS, PHP, MySQL)
-→ Do NOT talk about tools like VSCode, Chrome -
-Legal/ethical/accessibility/GDPR section (500 words) - System
-walkthrough with annotated screenshots - Formal testing (tables, test
-cases, attempted inputs, bugs found) - Conclusion + future
-improvements - Harvard references (alphabetical)
+You must discuss:
 
-2. A ZIP file of:
+* Accessibility standards (WCAG / ARIA)
+* GDPR
+* **How GDPR has changed after Brexit**
+* Personal data handling and protection
+* Legal, social, and ethical issues relating to your system
+* Discussion must relate **specifically to your system**, not generic essays
+* This section must be **fully referenced** using Harvard style
+* **Missing references = zero marks for this section**
 
--   All PHP files
--   Assets
--   Database (.sql)
+---
 
-------------------------------------------------------------------------
+# **Report Requirements (2000 words ±10%)**
 
-Marking Breakdown (System – 70%)
+Report counts for **30% of the overall mark**.
 
--   Display list of posts – 10
--   Add/edit/delete posts – 7
--   Display image – 3
--   Send email – 3
--   Manage users – 7
--   Assign modules/users to posts – 3
--   Manage modules – 7
--   Extra features (login, admin, security, validation, UX) – up to 30
+Your report must include:
 
-------------------------------------------------------------------------
+1. **Title Page**
 
-Marking Breakdown (Report – 30%)
+   * URL of the deployed website (I-Drive)
+   * Any passwords needed
+   * Word count
 
--   Introduction – included
--   Designs/wireframes/navigation/ERD – included
--   Technology discussion – included
--   Legal/ethical/GDPR section – 27% of report section (~500 words)
--   Walkthrough with screenshots – included
--   Formal testing – included
--   Conclusion – included
--   Harvard referencing – included
--   English/grammar/style → penalties for errors (up to −5 marks)
+2. **Table of Contents**
 
-------------------------------------------------------------------------
+3. **Introduction**
 
-Key Warnings
+4. **Design Section**
 
--   Do NOT use MySQLi (cap at 40%).
--   Do NOT use AI to write your report – must be your own research.
--   Do NOT implement features you don’t understand.
--   All AI-assisted code must be referenced.
--   References must match citations in-text.
--   Avoid synonym/rewording tools.
+   * Page designs / wireframes
+   * Navigation structure diagram
+   * Data diagram (**ERD**)
+   * Description of relational structure and foreign keys
 
-------------------------------------------------------------------------
+5. **Technology Discussion**
 
-What Your Project Should Contain
+   * Discuss actual **technologies** (HTML, CSS, JavaScript, PHP, MySQL)
+   * Do NOT discuss *tools* like VSCode, Chrome, XAMPP
 
-1.  Fully working CRUD with relational tables:
-    -   users
-    -   modules
-    -   posts (with FK to user and module)
-2.  Image upload or display method.
-3.  Contact form with PHP mail (or alternative discussed in class).
-4.  Clean, consistent UI.
-5.  Validation (server-side + HTML5 / JS).
-6.  Accessibility basics.
-7.  Enough test data to demonstrate all features.
+6. **Legal, Social, Ethical, Accessibility, GDPR (≈500 words)**
 
-------------------------------------------------------------------------
+   * Post-Brexit GDPR differences
+   * Accessibility standards
+   * How your system stores personal data
+   * Must include **in-text citations** and Harvard references
 
-This summary captures everything required so that you can paste it into
-Copilot to guide development and report writing.
+7. **Walkthrough With Annotated Screenshots**
+
+   * Show each page
+   * Demonstrate every functional requirement
+   * This is **not** the same as testing
+
+8. **Structured Testing**
+
+   * Formal test table (test case, expected result, actual result, pass/fail)
+   * Include attempted invalid inputs
+   * Bugs are allowed and expected
+
+9. **Conclusion and Future Recommendations**
+
+   * Maximum half a page
+
+10. **Harvard References**
+
+    * Must be alphabetical
+    * Every reference must have a matching in-text citation
+    * No first-person writing
+    * No synonym/rewording tools
+    * AI use must be referenced
+
+---
+
+# **ZIP File Requirements**
+
+Your ZIP must include:
+
+* All PHP files
+* Assets (images, CSS, JS)
+* SQL database export (`.sql`)
+
+---
+
+# **Marking Breakdown (System – 70%)**
+
+| Feature                    | Marks    |
+| -------------------------- | -------- |
+| Display list of posts      | 10       |
+| Add/edit/delete posts      | 7        |
+| Display image              | 3        |
+| Send email                 | 3        |
+| Manage users               | 7        |
+| Assign module/user to post | 3        |
+| Manage modules             | 7        |
+| Extra Features             | Up to 30 |
+
+---
+
+# **Extra Features (Optional but Needed for High Marks)**
+
+Examples:
+
+* Admin area
+* Login system
+* Password hashing and encryption
+* Sign-up system
+* Forgot password functionality
+* Tracking logged-in user (no dropdown needed)
+* Strong client & server validation
+* High-quality front-end UI
+* Other enhancements not discussed in class
+
+---
+
+# **Marking Breakdown (Report – 30%)**
+
+* Introduction
+* Designs/wireframes/navigation/ERD
+* Technology discussion
+* Legal/ethical/GDPR/accessibility section (≈500 words, 27% of report marks)
+* Walkthrough with screenshots
+* Structured testing
+* Conclusion
+* Harvard referencing
+* **English/grammar/style: up to 5 marks deducted for errors**
+
+---
+
+# **Important Warnings**
+
+* Do NOT use MySQLi → automatic 40% cap
+* Do NOT use AI to write report paragraphs
+* Do NOT write in first person (no "I", “me”, “my”)
+* Do NOT include tools like VSCode in your technology section
+* All AI-assisted code must be cited
+* References must match in-text citations
+* Avoid synonym tools (can trigger plagiarism flags)
+
+---
+
+# **Minimum Requirements to Avoid Capping at 40%**
+
+You must have:
+
+1. Fully working CRUD for posts
+2. Manage users (CRUD)
+3. Manage modules (CRUD)
+4. Assign posts to user & module
+5. Contact form sending email
+6. Display image per post
+7. PDO only (no MySQLi)
+8. Multiple tables with foreign keys
+9. Accessibility basics
+10. Legal/ethical/GDPR section (~500 words) with references
+11. Complete report + ZIP
+
