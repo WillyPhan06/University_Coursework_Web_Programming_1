@@ -1,6 +1,15 @@
 <article>
     <h2><?=htmlspecialchars($question['text'])?></h2>
-    <p><strong>Module:</strong> <?=htmlspecialchars($question['modulename'] ?? 'Unassigned')?></p>
+    <p><strong>Module:</strong>
+        <?php if (!empty($question['modulename']) && !empty($question['moduleid'])): ?>
+            <a href="module.php?id=<?=htmlspecialchars($question['moduleid'])?>" class="module-link">
+                <?=htmlspecialchars($question['modulename'])?>
+            </a>
+        <?php else: ?>
+            <span class="unassigned-module">Unassigned</span>
+        <?php endif; ?>
+    </p>
+
     
     <div style="display:flex; align-items:center; gap:10px; margin:10px 0;">
         <?php if (!empty($question['avatar'])): ?>
